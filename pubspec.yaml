@@ -9,7 +9,12 @@ environment:
 
 dependencies:
   args: ^1.5.2
-  path: ^1.6.0
+  functional_data: ^0.2.3
+  http: ^0.12.0+2
+  json_annotation: ^3.0.0
+  meta: ^1.1.7
+  mockito: ^4.1.1
+  sum_types: ^0.1.5+1
 
 dev_dependencies:
   test: ^1.6.0
