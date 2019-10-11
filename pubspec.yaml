@@ -1,0 +1,15 @@
+name: app_center_uploader
+description: Tool to upload basic
+version: 0.1.0
+publish_to: none
+
+
+environment:
+  sdk: '>=2.4.0 <3.0.0'
+
+dependencies:
+  args: ^1.5.2
+  path: ^1.6.0
+
+dev_dependencies:
+  test: ^1.6.0
