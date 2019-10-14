@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:app_center_uploader/src/api_responses.dart';
 import 'package:app_center_uploader/src/model/api_config.dart';
 import 'package:app_center_uploader/src/create_upload_url.dart';
 import 'package:app_center_uploader/src/model/release_info.dart';
@@ -37,7 +38,7 @@ void main() {
             .called(1);
       });
 
-      test('It sends out ', () {
+      test('It sends out correct request', () {
         const releaseInfo = ReleaseInfo(appName: 'myApp', buildNumber: '1234', releaseId: 178, buildVersion: '1.0.1');
         createUploadUrl(callApi: client.sendRequest, config: config, releaseInfo: releaseInfo);
 
@@ -46,6 +47,23 @@ void main() {
           headers: const {'Content-Type': 'application/json', 'X-API-Token': '1223'},
           body: '{"release_id":178,"build_version":"1.0.1","build_number":"1234"}',
         )).called(1);
+      });
+    });
+
+    group('Handle response correctly', () {
+      const releaseInfo = ReleaseInfo(appName: 'myApp', buildNumber: '1234', releaseId: 178, buildVersion: '1.0.1');
+
+      setUp(() {
+        const responseBody =
+            '{"upload_id": "123", "upload_url": "htpp://123.foo", "asset_id": "a","asset_domain": "b","asset_token": "c"}';
+        client = _MockHttpClient();
+        when(client.sendRequest(any, headers: anyNamed('headers'), body: anyNamed('body')))
+            .thenAnswer((_) => Future.value(Response(responseBody, 200)));
+      });
+
+      test('It returns $ReleaseUploadResponse when successfull', () async {
+        final result = await createUploadUrl(callApi: client.sendRequest, config: config, releaseInfo: releaseInfo);
+        expect(result.uploadId, '123');
       });
     });
   });
