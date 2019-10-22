@@ -9,15 +9,17 @@ import 'package:meta/meta.dart';
 Future<ReleaseUploadResponse> createUploadUrl({
   @required Future<http.Response> Function(dynamic url, {Map<String, String> headers, dynamic body}) callApi,
   @required ApiConfig config,
-  @required ReleaseInfo releaseInfo,
+  @required AppRelease appRelease,
 }) {
   assert(callApi != null);
 
   const decoder = JsonDecoder();
+  const encoder = JsonEncoder();
+
   return callApi(
-    'https://api.appcenter.ms/v0.1/apps/${config.owner}/${releaseInfo.appName}/release_uploads',
+    'https://api.appcenter.ms/v0.1/apps/${config.owner}/${appRelease.appName}/release_uploads',
     headers: {'Content-Type': 'application/json', 'X-API-Token': '${config.apiToken}'},
-    body: _createJsonBody(releaseInfo),
+    body: encoder.convert(appRelease.releaseInfo.toJson()),
   ).then((response) {
     if (response.statusCode == 200) {
       final bodyconverted = decoder.convert(response.body) as Map<String, dynamic>;
@@ -29,23 +31,3 @@ Future<ReleaseUploadResponse> createUploadUrl({
     }
   });
 }
-
-String _createJsonBody(ReleaseInfo info) {
-  final body = <String, dynamic>{};
-
-  final entries = [
-    _createEntryIfNotNull('release_id', info.releaseId),
-    _createEntryIfNotNull('build_version', info.buildVersion),
-    _createEntryIfNotNull('build_number', info.buildNumber),
-  ];
-
-  for (final e in entries.where((entry) => entry != null)) {
-    body[e?.key] = e?.value;
-  }
-
-  const encoder = JsonEncoder();
-  return encoder.convert(body);
-}
-
-MapEntry<String, dynamic> _createEntryIfNotNull(String key, dynamic value) =>
-    value != null ? MapEntry<String, dynamic>(key, value) : null;

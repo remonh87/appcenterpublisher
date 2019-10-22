@@ -3,6 +3,36 @@
 part of 'api_responses.dart';
 
 // **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+ReleaseUploadResponseSuccess _$ReleaseUploadResponseSuccessFromJson(
+    Map<String, dynamic> json) {
+  return ReleaseUploadResponseSuccess(
+    json['uploadId'] as String,
+    json['uploadUrl'] as String,
+  );
+}
+
+Map<String, dynamic> _$ReleaseUploadResponseSuccessToJson(
+        ReleaseUploadResponseSuccess instance) =>
+    <String, dynamic>{
+      'uploadId': instance.uploadId,
+      'uploadUrl': instance.uploadUrl,
+    };
+
+ApiReponseFailure _$ApiReponseFailureFromJson(Map<String, dynamic> json) {
+  return ApiReponseFailure(
+    message: json['message'] as String,
+  );
+}
+
+Map<String, dynamic> _$ApiReponseFailureToJson(ApiReponseFailure instance) =>
+    <String, dynamic>{
+      'message': instance.message,
+    };
+
+// **************************************************************************
 // SumTypesGenerator
 // **************************************************************************
 
