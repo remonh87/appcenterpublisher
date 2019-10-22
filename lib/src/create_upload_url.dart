@@ -19,8 +19,14 @@ Future<ReleaseUploadResponse> createUploadUrl({
     headers: {'Content-Type': 'application/json', 'X-API-Token': '${config.apiToken}'},
     body: _createJsonBody(releaseInfo),
   ).then((response) {
-    final bodyconverted = decoder.convert(response.body) as Map<String, dynamic>;
-    return ReleaseUploadResponse(bodyconverted['upload_id'].toString(), bodyconverted['upload_url'].toString());
+    if (response.statusCode == 200) {
+      final bodyconverted = decoder.convert(response.body) as Map<String, dynamic>;
+      return ReleaseUploadResponse.success(
+          ReleaseUploadResponseSuccess(bodyconverted['upload_id'].toString(), bodyconverted['upload_url'].toString()));
+    } else {
+      final bodyconverted = decoder.convert(response.body) as Map<String, dynamic>;
+      return ReleaseUploadResponse.failure(ApiReponseFailure(message: bodyconverted['message']?.toString() ?? ""));
+    }
   });
 }
 
