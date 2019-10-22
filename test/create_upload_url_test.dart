@@ -24,9 +24,15 @@ void main() {
     _MockHttpClient client;
     const config = ApiConfig(owner: 'owner', apiToken: '1223');
 
-    group('Create correct request', () {
+    const releaseInfo = ReleaseInfo(appName: 'myApp', buildNumber: '1234', releaseId: 178, buildVersion: '1.0.1');
+
+    group('GIVEN api call is succesfull', () {
+      const responseBody =
+          '{"upload_id": "123", "upload_url": "htpp://123.foo", "asset_id": "a","asset_domain": "b","asset_token": "c"}';
       setUp(() {
         client = _MockHttpClient();
+        when(client.sendRequest(any, headers: anyNamed('headers'), body: anyNamed('body')))
+            .thenAnswer((_) => Future.value(Response(responseBody, 200)));
       });
 
       test('It sends out empty body in case no release config specified ', () {
@@ -39,7 +45,6 @@ void main() {
       });
 
       test('It sends out correct request', () {
-        const releaseInfo = ReleaseInfo(appName: 'myApp', buildNumber: '1234', releaseId: 178, buildVersion: '1.0.1');
         createUploadUrl(callApi: client.sendRequest, config: config, releaseInfo: releaseInfo);
 
         verify(client.sendRequest(
@@ -48,22 +53,30 @@ void main() {
           body: '{"release_id":178,"build_version":"1.0.1","build_number":"1234"}',
         )).called(1);
       });
+
+      test('It returns $ReleaseUploadResponseSuccess', () async {
+        final response = await createUploadUrl(callApi: client.sendRequest, config: config, releaseInfo: releaseInfo);
+        final result = response.iswitch<ReleaseUploadResponseSuccess>(
+            success: (s) => s, failure: (_) => throw AssertionError("Should not fail"));
+        expect(result.uploadId, '123');
+      });
     });
 
-    group('Handle response correctly', () {
-      const releaseInfo = ReleaseInfo(appName: 'myApp', buildNumber: '1234', releaseId: 178, buildVersion: '1.0.1');
+    group('Given api fails', () {
+      const responseBody = '{"message": "whoops"}';
 
       setUp(() {
-        const responseBody =
-            '{"upload_id": "123", "upload_url": "htpp://123.foo", "asset_id": "a","asset_domain": "b","asset_token": "c"}';
         client = _MockHttpClient();
         when(client.sendRequest(any, headers: anyNamed('headers'), body: anyNamed('body')))
-            .thenAnswer((_) => Future.value(Response(responseBody, 200)));
+            .thenAnswer((_) => Future.value(Response(responseBody, 500)));
       });
 
-      test('It returns $ReleaseUploadResponse when successfull', () async {
-        final result = await createUploadUrl(callApi: client.sendRequest, config: config, releaseInfo: releaseInfo);
-        expect(result.uploadId, '123');
+      test('It retuns $ApiReponseFailure', () async {
+        final response = await createUploadUrl(callApi: client.sendRequest, config: config, releaseInfo: releaseInfo);
+        final result = response.iswitch<ApiReponseFailure>(
+            success: (_) => throw AssertionError('Expect call to fail'), failure: (f) => f);
+
+        expect(result.message, 'whoops');
       });
     });
   });
