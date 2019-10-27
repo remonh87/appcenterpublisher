@@ -27,6 +27,8 @@ class ReleaseUploadOperationSuccess {
   factory ReleaseUploadOperationSuccess.fromJson(Map<String, dynamic> json) =>
       _$ReleaseUploadOperationSuccessFromJson(json);
 
+  Map<String, dynamic> toJson() => _$ReleaseUploadOperationSuccessToJson(this);
+
   final String uploadId;
   final String uploadUrl;
 }
@@ -37,6 +39,7 @@ class ApiOperationFailure extends $ApiOperationFailure {
   const ApiOperationFailure({@required this.message});
 
   factory ApiOperationFailure.fromJson(Map<String, dynamic> json) => _$ApiOperationFailureFromJson(json);
+  Map<String, dynamic> toJson() => _$ApiOperationFailureToJson(this);
 
   final String message;
 }

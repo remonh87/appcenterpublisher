@@ -9,11 +9,9 @@ part of 'api_operation_data.dart';
 abstract class $ApiOperationFailure {
   String get message;
   const $ApiOperationFailure();
-  ApiOperationFailure copyWith({String message}) =>
-      ApiOperationFailure(message: message ?? this.message);
+  ApiOperationFailure copyWith({String message}) => ApiOperationFailure(message: message ?? this.message);
   String toString() => "ApiOperationFailure(message: $message)";
-  bool operator ==(dynamic other) =>
-      other.runtimeType == runtimeType && message == other.message;
+  bool operator ==(dynamic other) => other.runtimeType == runtimeType && message == other.message;
   @override
   int get hashCode {
     var result = 17;
@@ -23,25 +21,22 @@ abstract class $ApiOperationFailure {
 }
 
 class ApiOperationFailure$ {
-  static final message = Lens<ApiOperationFailure, String>(
-      (s_) => s_.message, (s_, message) => s_.copyWith(message: message));
+  static final message =
+      Lens<ApiOperationFailure, String>((s_) => s_.message, (s_, message) => s_.copyWith(message: message));
 }
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-ReleaseUploadOperationSuccess _$ReleaseUploadOperationSuccessFromJson(
-    Map<String, dynamic> json) {
+ReleaseUploadOperationSuccess _$ReleaseUploadOperationSuccessFromJson(Map<String, dynamic> json) {
   return ReleaseUploadOperationSuccess(
     json['uploadId'] as String,
     json['uploadUrl'] as String,
   );
 }
 
-Map<String, dynamic> _$ReleaseUploadOperationSuccessToJson(
-        ReleaseUploadOperationSuccess instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$ReleaseUploadOperationSuccessToJson(ReleaseUploadOperationSuccess instance) => <String, dynamic>{
       'uploadId': instance.uploadId,
       'uploadUrl': instance.uploadUrl,
     };
@@ -52,9 +47,7 @@ ApiOperationFailure _$ApiOperationFailureFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$ApiOperationFailureToJson(
-        ApiOperationFailure instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$ApiOperationFailureToJson(ApiOperationFailure instance) => <String, dynamic>{
       'message': instance.message,
     };
 
@@ -74,9 +67,7 @@ abstract class _ReleaseUploadResultBase {
   });
 }
 
-class ReleaseUploadResult
-    with _ReleaseUploadResult
-    implements _ReleaseUploadResultBase {
+class ReleaseUploadResult with _ReleaseUploadResult implements _ReleaseUploadResultBase {
   const ReleaseUploadResult.success(
     ReleaseUploadOperationSuccess success,
   ) : this._unsafe(success: success);
@@ -86,14 +77,11 @@ class ReleaseUploadResult
   const ReleaseUploadResult._unsafe({
     this.success,
     this.failure,
-  }) : assert(success != null && failure == null ||
-            success == null && failure != null);
-  static ReleaseUploadResult
-      load<__T extends ReleaseUploadResultRecordBase<__T>>(
+  }) : assert(success != null && failure == null || success == null && failure != null);
+  static ReleaseUploadResult load<__T extends ReleaseUploadResultRecordBase<__T>>(
     __T rec,
   ) {
-    if (!(rec.success != null && rec.failure == null ||
-        rec.success == null && rec.failure != null)) {
+    if (!(rec.success != null && rec.failure == null || rec.success == null && rec.failure != null)) {
       throw Exception("Cannot select a $ReleaseUploadResult case given $rec");
     }
     return ReleaseUploadResult._unsafe(
@@ -125,8 +113,7 @@ class ReleaseUploadResult
     } else if (this.failure != null) {
       return failure(this.failure);
     } else {
-      throw StateError(
-          "an instance of $ReleaseUploadResult has no case selected");
+      throw StateError("an instance of $ReleaseUploadResult has no case selected");
     }
   }
 
@@ -147,9 +134,7 @@ class ReleaseUploadResult
   bool operator ==(
     dynamic other,
   ) {
-    return other.runtimeType == runtimeType &&
-        other.success == success &&
-        other.failure == failure;
+    return other.runtimeType == runtimeType && other.success == success && other.failure == failure;
   }
 
   @override
@@ -192,9 +177,7 @@ abstract class _UploadBinaryResultBase {
   });
 }
 
-class UploadBinaryResult
-    with _UploadBinaryResult
-    implements _UploadBinaryResultBase {
+class UploadBinaryResult with _UploadBinaryResult implements _UploadBinaryResultBase {
   const UploadBinaryResult.success(
     UploadBinaryOperationSuccess success,
   ) : this._unsafe(success: success);
@@ -204,13 +187,11 @@ class UploadBinaryResult
   const UploadBinaryResult._unsafe({
     this.success,
     this.failure,
-  }) : assert(success != null && failure == null ||
-            success == null && failure != null);
+  }) : assert(success != null && failure == null || success == null && failure != null);
   static UploadBinaryResult load<__T extends UploadBinaryResultRecordBase<__T>>(
     __T rec,
   ) {
-    if (!(rec.success != null && rec.failure == null ||
-        rec.success == null && rec.failure != null)) {
+    if (!(rec.success != null && rec.failure == null || rec.success == null && rec.failure != null)) {
       throw Exception("Cannot select a $UploadBinaryResult case given $rec");
     }
     return UploadBinaryResult._unsafe(
@@ -242,8 +223,7 @@ class UploadBinaryResult
     } else if (this.failure != null) {
       return failure(this.failure);
     } else {
-      throw StateError(
-          "an instance of $UploadBinaryResult has no case selected");
+      throw StateError("an instance of $UploadBinaryResult has no case selected");
     }
   }
 
@@ -264,9 +244,7 @@ class UploadBinaryResult
   bool operator ==(
     dynamic other,
   ) {
-    return other.runtimeType == runtimeType &&
-        other.success == success &&
-        other.failure == failure;
+    return other.runtimeType == runtimeType && other.success == success && other.failure == failure;
   }
 
   @override
