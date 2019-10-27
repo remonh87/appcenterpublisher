@@ -1,4 +1,4 @@
-import 'package:app_center_uploader/src/api_responses.dart';
+import 'package:app_center_uploader/src/api_operation_data.dart';
 import 'package:app_center_uploader/src/model/api_config.dart';
 import 'package:app_center_uploader/src/api/create_upload_url.dart';
 import 'package:app_center_uploader/src/model/release_info.dart';
@@ -55,9 +55,9 @@ void main() {
       });
       // {"buildVersion":"1.0.1","buildNumber":"1234","releaseId":178}
       // {"build_version":"1.0.1","build_number":"1234","release_id":178}
-      test('It returns $ReleaseUploadResponseSuccess', () async {
+      test('It returns $ReleaseUploadOperationSuccess', () async {
         final response = await createUploadUrl(callApi: client.sendRequest, config: config, appRelease: appRelease);
-        final result = response.iswitch<ReleaseUploadResponseSuccess>(
+        final result = response.iswitch<ReleaseUploadOperationSuccess>(
             success: (s) => s, failure: (_) => throw AssertionError("Should not fail"));
         expect(result.uploadId, '123');
       });
@@ -72,9 +72,9 @@ void main() {
             .thenAnswer((_) => Future.value(Response(responseBody, 500)));
       });
 
-      test('It retuns $ApiReponseFailure', () async {
+      test('It retuns $ApiOperationFailure', () async {
         final response = await createUploadUrl(callApi: client.sendRequest, config: config, appRelease: appRelease);
-        final result = response.iswitch<ApiReponseFailure>(
+        final result = response.iswitch<ApiOperationFailure>(
             success: (_) => throw AssertionError('Expect call to fail'), failure: (f) => f);
 
         expect(result.message, 'whoops');
