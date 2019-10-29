@@ -55,43 +55,25 @@ Map<String, dynamic> _$ApiOperationFailureToJson(ApiOperationFailure instance) =
 // SumTypesGenerator
 // **************************************************************************
 
-abstract class _ReleaseUploadResultBase {
-  __T iswitch<__T>({
-    @required __T Function(ReleaseUploadOperationSuccess) success,
-    @required __T Function(ApiOperationFailure) failure,
-  });
-  __T iswitcho<__T>({
-    __T Function(ReleaseUploadOperationSuccess) success,
-    __T Function(ApiOperationFailure) failure,
-    @required __T Function() otherwise,
-  });
-}
-
-class ReleaseUploadResult with _ReleaseUploadResult implements _ReleaseUploadResultBase {
-  const ReleaseUploadResult.success(
-    ReleaseUploadOperationSuccess success,
-  ) : this._unsafe(success: success);
-  const ReleaseUploadResult.failure(
-    ApiOperationFailure failure,
-  ) : this._unsafe(failure: failure);
-  const ReleaseUploadResult._unsafe({
+abstract class _$ReleaseUploadResult {
+  const _$ReleaseUploadResult({
     this.success,
     this.failure,
   }) : assert(success != null && failure == null || success == null && failure != null);
-  static ReleaseUploadResult load<__T extends ReleaseUploadResultRecordBase<__T>>(
-    __T rec,
+  static ReleaseUploadResult load<$T extends ReleaseUploadResultRecordBase<$T>>(
+    $T rec,
   ) {
-    if (!(rec.success != null && rec.failure == null || rec.success == null && rec.failure != null)) {
+    if (rec.success != null && rec.failure == null) {
+      return ReleaseUploadResult.success(rec.success);
+    } else if (rec.success == null && rec.failure != null) {
+      return ReleaseUploadResult.failure(rec.failure);
+    } else {
       throw Exception("Cannot select a $ReleaseUploadResult case given $rec");
     }
-    return ReleaseUploadResult._unsafe(
-      success: rec.success,
-      failure: rec.failure,
-    );
   }
 
-  __T dump<__T>(
-    __T Function({
+  $T dump<$T>(
+    $T Function({
       ReleaseUploadOperationSuccess success,
       ApiOperationFailure failure,
     })
@@ -103,10 +85,9 @@ class ReleaseUploadResult with _ReleaseUploadResult implements _ReleaseUploadRes
     );
   }
 
-  @override
-  __T iswitch<__T>({
-    @required __T Function(ReleaseUploadOperationSuccess) success,
-    @required __T Function(ApiOperationFailure) failure,
+  $T iswitch<$T>({
+    @required $T Function(ReleaseUploadOperationSuccess) success,
+    @required $T Function(ApiOperationFailure) failure,
   }) {
     if (this.success != null) {
       return success(this.success);
@@ -117,13 +98,12 @@ class ReleaseUploadResult with _ReleaseUploadResult implements _ReleaseUploadRes
     }
   }
 
-  @override
-  __T iswitcho<__T>({
-    __T Function(ReleaseUploadOperationSuccess) success,
-    __T Function(ApiOperationFailure) failure,
-    @required __T Function() otherwise,
+  $T iswitcho<$T>({
+    $T Function(ReleaseUploadOperationSuccess) success,
+    $T Function(ApiOperationFailure) failure,
+    @required $T Function() otherwise,
   }) {
-    __T _otherwise(Object _) => otherwise();
+    $T _otherwise(Object _) => otherwise();
     return iswitch(
       success: success ?? _otherwise,
       failure: failure ?? _otherwise,
@@ -165,43 +145,25 @@ abstract class ReleaseUploadResultRecordBase<Self> {
   ApiOperationFailure get failure;
 }
 
-abstract class _UploadBinaryResultBase {
-  __T iswitch<__T>({
-    @required __T Function(UploadBinaryOperationSuccess) success,
-    @required __T Function(ApiOperationFailure) failure,
-  });
-  __T iswitcho<__T>({
-    __T Function(UploadBinaryOperationSuccess) success,
-    __T Function(ApiOperationFailure) failure,
-    @required __T Function() otherwise,
-  });
-}
-
-class UploadBinaryResult with _UploadBinaryResult implements _UploadBinaryResultBase {
-  const UploadBinaryResult.success(
-    UploadBinaryOperationSuccess success,
-  ) : this._unsafe(success: success);
-  const UploadBinaryResult.failure(
-    ApiOperationFailure failure,
-  ) : this._unsafe(failure: failure);
-  const UploadBinaryResult._unsafe({
+abstract class _$UploadBinaryResult {
+  const _$UploadBinaryResult({
     this.success,
     this.failure,
   }) : assert(success != null && failure == null || success == null && failure != null);
-  static UploadBinaryResult load<__T extends UploadBinaryResultRecordBase<__T>>(
-    __T rec,
+  static UploadBinaryResult load<$T extends UploadBinaryResultRecordBase<$T>>(
+    $T rec,
   ) {
-    if (!(rec.success != null && rec.failure == null || rec.success == null && rec.failure != null)) {
+    if (rec.success != null && rec.failure == null) {
+      return UploadBinaryResult.success(rec.success);
+    } else if (rec.success == null && rec.failure != null) {
+      return UploadBinaryResult.failure(rec.failure);
+    } else {
       throw Exception("Cannot select a $UploadBinaryResult case given $rec");
     }
-    return UploadBinaryResult._unsafe(
-      success: rec.success,
-      failure: rec.failure,
-    );
   }
 
-  __T dump<__T>(
-    __T Function({
+  $T dump<$T>(
+    $T Function({
       UploadBinaryOperationSuccess success,
       ApiOperationFailure failure,
     })
@@ -213,10 +175,9 @@ class UploadBinaryResult with _UploadBinaryResult implements _UploadBinaryResult
     );
   }
 
-  @override
-  __T iswitch<__T>({
-    @required __T Function(UploadBinaryOperationSuccess) success,
-    @required __T Function(ApiOperationFailure) failure,
+  $T iswitch<$T>({
+    @required $T Function(UploadBinaryOperationSuccess) success,
+    @required $T Function(ApiOperationFailure) failure,
   }) {
     if (this.success != null) {
       return success(this.success);
@@ -227,13 +188,12 @@ class UploadBinaryResult with _UploadBinaryResult implements _UploadBinaryResult
     }
   }
 
-  @override
-  __T iswitcho<__T>({
-    __T Function(UploadBinaryOperationSuccess) success,
-    __T Function(ApiOperationFailure) failure,
-    @required __T Function() otherwise,
+  $T iswitcho<$T>({
+    $T Function(UploadBinaryOperationSuccess) success,
+    $T Function(ApiOperationFailure) failure,
+    @required $T Function() otherwise,
   }) {
-    __T _otherwise(Object _) => otherwise();
+    $T _otherwise(Object _) => otherwise();
     return iswitch(
       success: success ?? _otherwise,
       failure: failure ?? _otherwise,
