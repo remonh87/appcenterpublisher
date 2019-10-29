@@ -6,17 +6,19 @@ import 'package:meta/meta.dart';
 part 'api_operation_data.g.dart';
 // ignore_for_file: annotate_overrides
 
-@SumType([
-  Case<ReleaseUploadOperationSuccess>(name: "success"),
-  Case<ApiOperationFailure>(name: "failure"),
-])
-mixin _ReleaseUploadResult implements _ReleaseUploadResultBase {}
+@SumType()
+class ReleaseUploadResult extends _$ReleaseUploadResult {
+  const ReleaseUploadResult.success(ReleaseUploadOperationSuccess success) : super(success: success);
 
-@SumType([
-  Case<UploadBinaryOperationSuccess>(name: "success"),
-  Case<ApiOperationFailure>(name: "failure"),
-])
-mixin _UploadBinaryResult implements _UploadBinaryResultBase {}
+  const ReleaseUploadResult.failure(ApiOperationFailure failure) : super(failure: failure);
+}
+
+@SumType()
+class UploadBinaryResult extends _$UploadBinaryResult {
+  const UploadBinaryResult.success(UploadBinaryOperationSuccess success) : super(success: success);
+
+  const UploadBinaryResult.failure(ApiOperationFailure failure) : super(failure: failure);
+}
 
 class UploadBinaryOperationSuccess {}
 
@@ -39,6 +41,7 @@ class ApiOperationFailure extends $ApiOperationFailure {
   const ApiOperationFailure({@required this.message});
 
   factory ApiOperationFailure.fromJson(Map<String, dynamic> json) => _$ApiOperationFailureFromJson(json);
+
   Map<String, dynamic> toJson() => _$ApiOperationFailureToJson(this);
 
   final String message;
