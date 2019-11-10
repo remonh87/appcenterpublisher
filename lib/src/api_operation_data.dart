@@ -20,6 +20,14 @@ class UploadBinaryResult extends _$UploadBinaryResult {
   const UploadBinaryResult.failure(ApiOperationFailure failure) : super(failure: failure);
 }
 
+@SumType()
+class CommitReleaseResult extends _$CommitReleaseResult {
+  const CommitReleaseResult.success(CommitReleaseSuccess success) : super(success: success);
+  const CommitReleaseResult.failure(ApiOperationFailure failure) : super(failure: failure);
+}
+
+class CommitReleaseSuccess {}
+
 class UploadBinaryOperationSuccess {}
 
 @JsonSerializable()
