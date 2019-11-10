@@ -31,7 +31,7 @@ void main() {
       setUp(() {
         client = _MockHttpClient();
         when(client.sendRequest(any, headers: anyNamed('headers'), body: anyNamed('body')))
-            .thenAnswer((_) => Future.value(Response(responseBody, 200)));
+            .thenAnswer((_) => Future.value(Response(responseBody, 201)));
       });
 
       test('It sends out empty body in case no release config specified ', () {
