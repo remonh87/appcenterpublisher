@@ -26,7 +26,20 @@ class CommitReleaseResult extends _$CommitReleaseResult {
   const CommitReleaseResult.failure(ApiOperationFailure failure) : super(failure: failure);
 }
 
-class CommitReleaseSuccess {}
+@JsonSerializable()
+class CommitReleaseSuccess {
+  const CommitReleaseSuccess(this.releaseId, this.releaseUrl);
+
+  @JsonKey(name: 'release_id')
+  final int releaseId;
+
+  @JsonKey(name: 'release_url')
+  final String releaseUrl;
+
+  factory CommitReleaseSuccess.fromJson(Map<String, dynamic> json) => _$CommitReleaseSuccessFromJson(json);
+
+  Map<String, dynamic> toJson() => _$CommitReleaseSuccessToJson(this);
+}
 
 class UploadBinaryOperationSuccess {}
 
@@ -39,7 +52,10 @@ class ReleaseUploadOperationSuccess {
 
   Map<String, dynamic> toJson() => _$ReleaseUploadOperationSuccessToJson(this);
 
+  @JsonKey(name: 'upload_id')
   final String uploadId;
+
+  @JsonKey(name: 'upload_url')
   final String uploadUrl;
 }
 
