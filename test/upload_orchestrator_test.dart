@@ -105,7 +105,8 @@ void main() {
                   uploadId: anyNamed('uploadId'),
                   config: anyNamed('config'),
                   appName: anyNamed('appName')),
-            ).thenAnswer((_) => Future.value(CommitReleaseResult.success(CommitReleaseSuccess())));
+            ).thenAnswer(
+                (_) => Future.value(CommitReleaseResult.success(CommitReleaseSuccess(1234, 'http://release12foo'))));
           });
 
           test('It returns exit code 0', () async {

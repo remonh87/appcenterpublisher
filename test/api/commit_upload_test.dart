@@ -37,13 +37,20 @@ void main() {
 
       group('GIVEN api returns success', () {
         setUp(() {
-          when(client.patch(any, headers: anyNamed('headers'), body: anyNamed('body')))
-              .thenAnswer((_) => Future.value(http.Response('{}', 200)));
+          when(client.patch(any, headers: anyNamed('headers'), body: anyNamed('body'))).thenAnswer(
+              (_) => Future.value(http.Response('{"release_id": 1234, "release_url": "http://foo1234"}', 200)));
         });
-        test('It returns $CommitReleaseSuccess', () async {
+
+        test('It returns release id', () async {
           final response = await commitUpload(patch: client.patch, uploadId: '10', config: config, appName: 'test app');
           final result = response.iswitch(success: (s) => s, failure: (_) => throw AssertionError());
-          expect(result, TypeMatcher<CommitReleaseSuccess>());
+          expect(result.releaseId, 1234);
+        });
+
+        test('It returns release url', () async {
+          final response = await commitUpload(patch: client.patch, uploadId: '10', config: config, appName: 'test app');
+          final result = response.iswitch(success: (s) => s, failure: (_) => throw AssertionError());
+          expect(result.releaseUrl, "http://foo1234");
         });
       });
 

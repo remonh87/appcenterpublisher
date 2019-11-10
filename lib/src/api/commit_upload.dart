@@ -13,6 +13,8 @@ Future<CommitReleaseResult> commitUpload({
   @required ApiConfig config,
   @required String appName,
 }) async {
+  const decoder = JsonDecoder();
+
   final result = await patch(
     '$appcenterBaseUrl/${config.owner}/$appName/release_uploads/$uploadId',
     headers: {'Content-Type': 'application/json', 'X-API-Token': '${config.apiToken}'},
@@ -20,7 +22,7 @@ Future<CommitReleaseResult> commitUpload({
   );
 
   if (result.statusCode == 200) {
-    return CommitReleaseResult.success(CommitReleaseSuccess());
+    return CommitReleaseResult.success(CommitReleaseSuccess.fromJson(decoder.convert(result.body)));
   } else {
     return CommitReleaseResult.failure(
       ApiOperationFailure(message: "Api returned ${result.statusCode} message: ${result.body}"),

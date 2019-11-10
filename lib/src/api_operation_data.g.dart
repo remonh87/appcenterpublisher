@@ -29,16 +29,28 @@ class ApiOperationFailure$ {
 // JsonSerializableGenerator
 // **************************************************************************
 
+CommitReleaseSuccess _$CommitReleaseSuccessFromJson(Map<String, dynamic> json) {
+  return CommitReleaseSuccess(
+    json['release_id'] as int,
+    json['release_url'] as String,
+  );
+}
+
+Map<String, dynamic> _$CommitReleaseSuccessToJson(CommitReleaseSuccess instance) => <String, dynamic>{
+      'release_id': instance.releaseId,
+      'release_url': instance.releaseUrl,
+    };
+
 ReleaseUploadOperationSuccess _$ReleaseUploadOperationSuccessFromJson(Map<String, dynamic> json) {
   return ReleaseUploadOperationSuccess(
-    json['uploadId'] as String,
-    json['uploadUrl'] as String,
+    json['upload_id'] as String,
+    json['upload_url'] as String,
   );
 }
 
 Map<String, dynamic> _$ReleaseUploadOperationSuccessToJson(ReleaseUploadOperationSuccess instance) => <String, dynamic>{
-      'uploadId': instance.uploadId,
-      'uploadUrl': instance.uploadUrl,
+      'upload_id': instance.uploadId,
+      'upload_url': instance.uploadUrl,
     };
 
 ApiOperationFailure _$ApiOperationFailureFromJson(Map<String, dynamic> json) {

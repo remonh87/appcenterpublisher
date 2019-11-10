@@ -23,9 +23,7 @@ Future<ReleaseUploadResult> createUploadUrl({
     body: encoder.convert(appRelease.releaseInfo.toJson()),
   ).then((response) {
     if (response.statusCode == 200) {
-      final bodyconverted = decoder.convert(response.body) as Map<String, dynamic>;
-      return ReleaseUploadResult.success(
-          ReleaseUploadOperationSuccess(bodyconverted['upload_id'].toString(), bodyconverted['upload_url'].toString()));
+      return ReleaseUploadResult.success(ReleaseUploadOperationSuccess.fromJson(decoder.convert(response.body)));
     } else {
       final bodyconverted = decoder.convert(response.body) as Map<String, dynamic>;
       return ReleaseUploadResult.failure(ApiOperationFailure(message: bodyconverted['message']?.toString() ?? ""));

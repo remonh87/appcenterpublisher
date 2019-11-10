@@ -55,11 +55,18 @@ void main() {
       });
       // {"buildVersion":"1.0.1","buildNumber":"1234","releaseId":178}
       // {"build_version":"1.0.1","build_number":"1234","release_id":178}
-      test('It returns $ReleaseUploadOperationSuccess', () async {
+      test('It returns correct uploadid', () async {
         final response = await createUploadUrl(callApi: client.sendRequest, config: config, appRelease: appRelease);
         final result = response.iswitch<ReleaseUploadOperationSuccess>(
             success: (s) => s, failure: (_) => throw AssertionError("Should not fail"));
         expect(result.uploadId, '123');
+      });
+
+      test('It returns correct uploadUrl', () async {
+        final response = await createUploadUrl(callApi: client.sendRequest, config: config, appRelease: appRelease);
+        final result = response.iswitch<ReleaseUploadOperationSuccess>(
+            success: (s) => s, failure: (_) => throw AssertionError("Should not fail"));
+        expect(result.uploadUrl, 'htpp://123.foo');
       });
     });
 
