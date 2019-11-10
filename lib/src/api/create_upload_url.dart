@@ -22,7 +22,7 @@ Future<ReleaseUploadResult> createUploadUrl({
     headers: {'Content-Type': 'application/json', 'X-API-Token': '${config.apiToken}'},
     body: encoder.convert(appRelease.releaseInfo.toJson()),
   ).then((response) {
-    if (response.statusCode == 200) {
+    if (response.statusCode == 201) {
       return ReleaseUploadResult.success(ReleaseUploadOperationSuccess.fromJson(decoder.convert(response.body)));
     } else {
       final bodyconverted = decoder.convert(response.body) as Map<String, dynamic>;
