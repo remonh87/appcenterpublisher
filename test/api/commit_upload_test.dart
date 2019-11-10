@@ -27,7 +27,7 @@ void main() {
       const config = ApiConfig(owner: 'test', apiToken: '12345');
 
       test('It creates correct request', () {
-        commitUpload(client.patch, '10', config, 'testApp');
+        commitUpload(patch: client.patch, uploadId: '10', config: config, appName: 'testApp');
         verify(client.patch(
           'https://api.appcenter.ms/v0.1/apps/test/testApp/release_uploads/10',
           headers: {'Content-Type': 'application/json', 'X-API-Token': '12345'},
@@ -41,7 +41,7 @@ void main() {
               .thenAnswer((_) => Future.value(http.Response('{}', 200)));
         });
         test('It returns $CommitReleaseSuccess', () async {
-          final response = await commitUpload(client.patch, '10', config, 'test app');
+          final response = await commitUpload(patch: client.patch, uploadId: '10', config: config, appName: 'test app');
           final result = response.iswitch(success: (s) => s, failure: (_) => throw AssertionError());
           expect(result, TypeMatcher<CommitReleaseSuccess>());
         });
@@ -54,7 +54,7 @@ void main() {
         });
 
         test('It returns $ApiOperationFailure', () async {
-          final response = await commitUpload(client.patch, '10', config, 'test app');
+          final response = await commitUpload(patch: client.patch, uploadId: '10', config: config, appName: 'test app');
           final result = response.iswitch(success: (_) => throw AssertionError(), failure: (f) => f);
           expect(result, const ApiOperationFailure(message: 'Api returned 401 message: something went wrong'));
         });
