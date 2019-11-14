@@ -67,6 +67,96 @@ Map<String, dynamic> _$ApiOperationFailureToJson(ApiOperationFailure instance) =
 // SumTypesGenerator
 // **************************************************************************
 
+abstract class _$DistributionResult {
+  const _$DistributionResult({
+    this.success,
+    this.failure,
+  }) : assert(success != null && failure == null || success == null && failure != null);
+  static DistributionResult load<$T extends DistributionResultRecordBase<$T>>(
+    $T rec,
+  ) {
+    if (rec.success != null && rec.failure == null) {
+      return DistributionResult.success(rec.success);
+    } else if (rec.success == null && rec.failure != null) {
+      return DistributionResult.failure(rec.failure);
+    } else {
+      throw Exception("Cannot select a $DistributionResult case given $rec");
+    }
+  }
+
+  $T dump<$T>(
+    $T Function({
+      DistributionSuccess success,
+      ApiOperationFailure failure,
+    })
+        make,
+  ) {
+    return iswitch(
+      success: (success) => make(success: success),
+      failure: (failure) => make(failure: failure),
+    );
+  }
+
+  $T iswitch<$T>({
+    @required $T Function(DistributionSuccess) success,
+    @required $T Function(ApiOperationFailure) failure,
+  }) {
+    if (this.success != null) {
+      return success(this.success);
+    } else if (this.failure != null) {
+      return failure(this.failure);
+    } else {
+      throw StateError("an instance of $DistributionResult has no case selected");
+    }
+  }
+
+  $T iswitcho<$T>({
+    $T Function(DistributionSuccess) success,
+    $T Function(ApiOperationFailure) failure,
+    @required $T Function() otherwise,
+  }) {
+    $T _otherwise(Object _) => otherwise();
+    return iswitch(
+      success: success ?? _otherwise,
+      failure: failure ?? _otherwise,
+    );
+  }
+
+  @override
+  bool operator ==(
+    dynamic other,
+  ) {
+    return other.runtimeType == runtimeType && other.success == success && other.failure == failure;
+  }
+
+  @override
+  int get hashCode {
+    var result = 17;
+    result = 37 * result + success.hashCode;
+    result = 37 * result + failure.hashCode;
+    return result;
+  }
+
+  @override
+  String toString() {
+    final ctor = iswitch(
+      success: (value) => "success($value)",
+      failure: (value) => "failure($value)",
+    );
+    return "$runtimeType.$ctor";
+  }
+
+  @protected
+  final DistributionSuccess success;
+  @protected
+  final ApiOperationFailure failure;
+}
+
+abstract class DistributionResultRecordBase<Self> {
+  DistributionSuccess get success;
+  ApiOperationFailure get failure;
+}
+
 abstract class _$ReleaseUploadResult {
   const _$ReleaseUploadResult({
     this.success,

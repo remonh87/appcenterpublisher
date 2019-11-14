@@ -7,6 +7,15 @@ part 'api_operation_data.g.dart';
 // ignore_for_file: annotate_overrides
 
 @SumType()
+class DistributionResult extends _$DistributionResult {
+  const DistributionResult.success(DistributionSuccess success) : super(success: success);
+
+  const DistributionResult.failure(ApiOperationFailure failure) : super(failure: failure);
+}
+
+class DistributionSuccess {}
+
+@SumType()
 class ReleaseUploadResult extends _$ReleaseUploadResult {
   const ReleaseUploadResult.success(ReleaseUploadOperationSuccess success) : super(success: success);
 
