@@ -12,11 +12,14 @@ Future<DistributionResult> distributeToGroup({
   @required Future<http.Response> Function(dynamic url, {Map<String, String> headers, dynamic body}) post,
   @required DistributionGroup distributionGroup,
   @required ApiConfig config,
+  @required String appName,
+  @required int releaseId,
 }) async {
   const encoder = JsonEncoder();
   final headers = {'Content-Type': 'application/json', 'Accept': 'application/json', 'X-API-Token': config.apiToken};
 
-  final response = await post('$appcenterBaseUrl', headers: headers, body: encoder.convert(distributionGroup.toJson()));
+  final response = await post('$appcenterBaseUrl/${config.owner}/$appName/releases/$releaseId/groups',
+      headers: headers, body: encoder.convert(distributionGroup.toJson()));
 
   if (response.statusCode == 201) {
     return DistributionResult.success(DistributionSuccess());

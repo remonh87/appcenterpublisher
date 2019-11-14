@@ -30,9 +30,15 @@ void main() {
       });
 
       test('It call the correct endpoins and supplies correct arguments', () {
-        distributeToGroup(post: client.post, distributionGroup: distributionGroup, config: config);
+        distributeToGroup(
+          post: client.post,
+          distributionGroup: distributionGroup,
+          config: config,
+          releaseId: 1,
+          appName: 'testApp',
+        );
 
-        final expectedUrl = 'https://api.appcenter.ms/v0.1/apps';
+        final expectedUrl = 'https://api.appcenter.ms/v0.1/apps/test/testApp/releases/1/groups';
         final expectedHeaders = {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
@@ -59,8 +65,13 @@ void main() {
       });
 
       test('It returns $DistributionSuccess', () async {
-        final response =
-            await distributeToGroup(post: client.post, distributionGroup: distributionGroup, config: config);
+        final response = await distributeToGroup(
+          post: client.post,
+          distributionGroup: distributionGroup,
+          config: config,
+          releaseId: 1,
+          appName: 'test',
+        );
 
         final result = response.iswitch(success: (s) => s, failure: (_) => throw AssertionError());
 
@@ -78,8 +89,13 @@ void main() {
       });
 
       test('It returns $ApiOperationFailure', () async {
-        final response =
-            await distributeToGroup(post: client.post, distributionGroup: distributionGroup, config: config);
+        final response = await distributeToGroup(
+          post: client.post,
+          distributionGroup: distributionGroup,
+          config: config,
+          releaseId: 1,
+          appName: 'test',
+        );
 
         final result = response.iswitch(success: (_) => throw AssertionError(), failure: (f) => f);
 
@@ -97,8 +113,13 @@ void main() {
       });
 
       test('It returns $ApiOperationFailure', () async {
-        final response =
-            await distributeToGroup(post: client.post, distributionGroup: distributionGroup, config: config);
+        final response = await distributeToGroup(
+          post: client.post,
+          distributionGroup: distributionGroup,
+          config: config,
+          releaseId: 1,
+          appName: 'test',
+        );
 
         final result = response.iswitch(success: (_) => throw AssertionError(), failure: (f) => f);
 

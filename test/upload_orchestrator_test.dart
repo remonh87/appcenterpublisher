@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:app_center_uploader/src/api_operation_data.dart';
 import 'package:app_center_uploader/src/model/api_config.dart';
+import 'package:app_center_uploader/src/model/distribution_group.dart';
 import 'package:app_center_uploader/src/model/release_info.dart';
 import 'package:app_center_uploader/src/upload_orchestrator.dart';
 import 'package:meta/meta.dart';
@@ -24,6 +25,14 @@ abstract class _UploadStub {
       String uploadId,
       ApiConfig config,
       String appName});
+
+  Future<DistributionResult> distributeToGroup({
+    @required Future<http.Response> Function(dynamic url, {Map<String, String> headers, dynamic body}) post,
+    @required DistributionGroup distributionGroup,
+    @required ApiConfig config,
+    @required String appName,
+    @required int releaseId,
+  });
 }
 
 class _MockUploader extends Mock implements _UploadStub {}
@@ -38,9 +47,11 @@ void main() {
   setUp(() {
     uploader = _MockUploader();
     sut = UploadOrchestrator(
-        createUploadUrl: uploader.createUploadUrl,
-        uploadBinary: uploader.uploadBinary,
-        commitUpload: uploader.commitUpload);
+      createUploadUrl: uploader.createUploadUrl,
+      uploadBinary: uploader.uploadBinary,
+      commitUpload: uploader.commitUpload,
+      distributeToGroup: uploader.distributeToGroup,
+    );
   });
 
   group('Start upload', () {
@@ -60,7 +71,16 @@ void main() {
         appName: anyNamed('appName'),
         config: anyNamed('config'),
       )).thenAnswer((_) => Future.value(const CommitReleaseResult.failure(ApiOperationFailure(message: ''))));
-      ;
+
+      when(
+        uploader.distributeToGroup(
+          post: anyNamed('post'),
+          distributionGroup: anyNamed('distributionGroup'),
+          config: config,
+          appName: anyNamed('appName'),
+          releaseId: anyNamed('releaseId'),
+        ),
+      ).thenAnswer((_) => Future.value(DistributionResult.success(DistributionSuccess())));
 
       await sut.run(config, release);
     });
@@ -98,6 +118,7 @@ void main() {
         });
 
         group('AND commit release succeeds', () {
+          final commitReleaseSuccess = CommitReleaseSuccess(12345678, 'http:/./qu/release12foo');
           setUp(() {
             when(
               uploader.commitUpload(
@@ -105,13 +126,58 @@ void main() {
                   uploadId: anyNamed('uploadId'),
                   config: anyNamed('config'),
                   appName: anyNamed('appName')),
-            ).thenAnswer((_) =>
-                Future.value(CommitReleaseResult.success(CommitReleaseSuccess(1234, 'http:/./qu/release12foo'))));
+            ).thenAnswer((_) => Future.value(CommitReleaseResult.success(commitReleaseSuccess)));
           });
 
-          test('It returns exit code 0', () async {
-            final result = await sut.run(config, release);
-            expect(result, 0);
+          test('It calls distribute to group', () async {
+            await sut.run(config, release);
+            final group = DistributionGroup(id: 'stub', mandatoryUpdate: true, notifyTesters: true);
+            verify(
+              uploader.distributeToGroup(
+                  post: http.post,
+                  distributionGroup: group,
+                  config: config,
+                  appName: release.appName,
+                  releaseId: commitReleaseSuccess.releaseId),
+            ).called(1);
+          });
+
+          group('AND distribute to group succeeds', () {
+            setUp(() {
+              when(
+                uploader.distributeToGroup(
+                  post: anyNamed('post'),
+                  distributionGroup: anyNamed('distributionGroup'),
+                  config: config,
+                  appName: anyNamed('appName'),
+                  releaseId: anyNamed('releaseId'),
+                ),
+              ).thenAnswer((_) => Future.value(DistributionResult.success(DistributionSuccess())));
+            });
+
+            test('It returns exit code 0', () async {
+              final result = await sut.run(config, release);
+              expect(result, 0);
+            });
+          });
+
+          group('AND distribute to group fails', () {
+            setUp(() {
+              when(
+                uploader.distributeToGroup(
+                  post: anyNamed('post'),
+                  distributionGroup: anyNamed('distributionGroup'),
+                  config: config,
+                  appName: anyNamed('appName'),
+                  releaseId: anyNamed('releaseId'),
+                ),
+              ).thenAnswer((_) => Future.value(DistributionResult.failure(ApiOperationFailure(message: 'whoops'))));
+            });
+
+            test('It returns exit code 1', () async {
+              final result = await sut.run(config, release);
+              expect(result, 1);
+            });
           });
         });
 
