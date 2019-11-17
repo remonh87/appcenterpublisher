@@ -4,6 +4,7 @@ import 'package:app_center_uploader/src/api_operation_data.dart';
 import 'package:app_center_uploader/src/model/api_config.dart';
 import 'package:app_center_uploader/src/model/distribution_group.dart';
 import 'package:app_center_uploader/src/model/release_info.dart';
+import 'package:app_center_uploader/src/model/run_data.dart';
 import 'package:app_center_uploader/src/upload_orchestrator.dart';
 import 'package:meta/meta.dart';
 import 'package:http/http.dart' as http;
@@ -43,6 +44,10 @@ void main() {
   const releaseInfo = ReleaseInfo(buildVersion: '1', buildNumber: '2', releaseId: 0);
   const release = AppRelease(appName: 'test', releaseInfo: releaseInfo);
   const config = ApiConfig(owner: 'me', apiToken: '1234');
+  const distributionGroup = DistributionGroup(id: '123');
+  const artefactLocation = '/test/arctefact.apk';
+  const rundata =
+      RunData(config: config, release: release, group: distributionGroup, artefactLocation: artefactLocation);
 
   setUp(() {
     uploader = _MockUploader();
@@ -82,7 +87,7 @@ void main() {
         ),
       ).thenAnswer((_) => Future.value(DistributionResult.success(DistributionSuccess())));
 
-      await sut.run(config, release);
+      await sut.run(rundata);
     });
 
     test('It executes createuploadurl function with correct arguments', () async {
@@ -99,8 +104,8 @@ void main() {
       });
 
       test('It executes uploading binary with correct arguments', () async {
-        await sut.run(config, release);
-        verify(uploader.uploadBinary('http://upload.test', 'stub')).called(1);
+        await sut.run(rundata);
+        verify(uploader.uploadBinary('http://upload.test', artefactLocation)).called(1);
       });
 
       group('AND uploadBinary succeeds', () {
@@ -108,7 +113,7 @@ void main() {
           when(uploader.uploadBinary(any, any))
               .thenAnswer((_) => Future.value(UploadBinaryResult.success(UploadBinaryOperationSuccess())));
 
-          await sut.run(config, release);
+          await sut.run(rundata);
         });
 
         test('It executes commit upload with correct arguments', () async {
@@ -130,8 +135,8 @@ void main() {
           });
 
           test('It calls distribute to group', () async {
-            await sut.run(config, release);
-            final group = DistributionGroup(id: 'stub', mandatoryUpdate: true, notifyTesters: true);
+            await sut.run(rundata);
+            final group = DistributionGroup(id: distributionGroup.id, mandatoryUpdate: true, notifyTesters: true);
             verify(
               uploader.distributeToGroup(
                   post: http.post,
@@ -156,7 +161,7 @@ void main() {
             });
 
             test('It returns exit code 0', () async {
-              final result = await sut.run(config, release);
+              final result = await sut.run(rundata);
               expect(result, 0);
             });
           });
@@ -175,7 +180,7 @@ void main() {
             });
 
             test('It returns exit code 1', () async {
-              final result = await sut.run(config, release);
+              final result = await sut.run(rundata);
               expect(result, 1);
             });
           });
@@ -194,7 +199,7 @@ void main() {
           });
 
           test('It returns exit code 1®', () async {
-            final result = await sut.run(config, release);
+            final result = await sut.run(rundata);
             expect(result, 1);
           });
         });
@@ -206,7 +211,7 @@ void main() {
         setUp(() async {
           when(uploader.uploadBinary(any, any))
               .thenAnswer((_) => Future.value(UploadBinaryResult.failure(ApiOperationFailure(message: 'failed'))));
-          result = await sut.run(config, release);
+          result = await sut.run(rundata);
         });
 
         test('It returns exitcode 1', () async {
@@ -232,7 +237,7 @@ void main() {
       });
 
       test('It returns exitcode 1', () async {
-        final result = await sut.run(config, release);
+        final result = await sut.run(rundata);
         expect(result, 1);
       });
     });
