@@ -7,11 +7,11 @@ part 'distribution_group.g.dart';
 @JsonSerializable(fieldRename: FieldRename.snake)
 @FunctionalData()
 class DistributionGroup extends $DistributionGroup {
-  DistributionGroup({
+  const DistributionGroup({
     @required this.id,
     this.mandatoryUpdate = true,
     this.notifyTesters = true,
-  });
+  }) : assert(id != null);
 
   factory DistributionGroup.fromJson(Map<String, dynamic> json) => _$DistributionGroupFromJson(json);
 

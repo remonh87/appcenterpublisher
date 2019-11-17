@@ -4,6 +4,7 @@ import 'package:app_center_uploader/src/api_operation_data.dart';
 import 'package:app_center_uploader/src/model/api_config.dart';
 import 'package:app_center_uploader/src/model/distribution_group.dart';
 import 'package:app_center_uploader/src/model/release_info.dart';
+import 'package:app_center_uploader/src/model/run_data.dart';
 import 'package:meta/meta.dart';
 import 'package:http/http.dart' as http;
 
@@ -42,35 +43,34 @@ class UploadOrchestrator {
     @required int releaseId,
   }) distributeToGroup;
 
-  Future<int> run(ApiConfig config, AppRelease appRelease) async {
-    final result = await createUploadUrl(callApi: http.post, config: config, appRelease: appRelease);
+  Future<int> run(RunData rundata) async {
+    final result = await createUploadUrl(callApi: http.post, config: rundata.config, appRelease: rundata.release);
 
     return await result.iswitch(
         success: (createReleaseResult) async {
-          final uploadResult = await _uploadBinary(createReleaseResult.uploadUrl);
+          final uploadResult = await _uploadBinary(createReleaseResult.uploadUrl, rundata.artefactLocation);
           return uploadResult.iswitch(
               success: (_) async {
-                final commitResult = await _commitRelease(createReleaseResult.uploadId, config, appRelease.appName);
+                final commitResult =
+                    await _commitRelease(createReleaseResult.uploadId, rundata.config, rundata.release.appName);
                 return commitResult.iswitch(
-                    success: (c) => _distributeToGroup(config, c.releaseId, appRelease.appName), failure: (_) => 1);
+                    success: (c) =>
+                        _distributeToGroup(rundata.config, c.releaseId, rundata.release.appName, rundata.group.id),
+                    failure: (_) => 1);
               },
               failure: (_) => 1);
         },
         failure: (_) => 1);
   }
 
-  Future<UploadBinaryResult> _uploadBinary(String uploadUrl) async {
-    //TODO remove stub
-    return await uploadBinary(uploadUrl, 'stub');
-  }
+  Future<UploadBinaryResult> _uploadBinary(String uploadUrl, String artefactLocation) async =>
+      await uploadBinary(uploadUrl, artefactLocation);
 
-  Future<CommitReleaseResult> _commitRelease(String uploadId, ApiConfig config, String appName) async {
-    return await commitUpload(patch: http.patch, uploadId: uploadId, config: config, appName: appName);
-  }
+  Future<CommitReleaseResult> _commitRelease(String uploadId, ApiConfig config, String appName) async =>
+      await commitUpload(patch: http.patch, uploadId: uploadId, config: config, appName: appName);
 
-  Future<int> _distributeToGroup(ApiConfig config, int releaseId, String appName) async {
-    //TODO remove stub
-    final distributiongroup = DistributionGroup(id: 'stub');
+  Future<int> _distributeToGroup(ApiConfig config, int releaseId, String appName, String distributionGroup) async {
+    final distributiongroup = DistributionGroup(id: distributionGroup);
     final result = await distributeToGroup(
       post: http.post,
       distributionGroup: distributiongroup,
