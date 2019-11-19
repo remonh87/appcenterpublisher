@@ -31,7 +31,7 @@ class ApiOperationFailure$ {
 
 CommitReleaseSuccess _$CommitReleaseSuccessFromJson(Map<String, dynamic> json) {
   return CommitReleaseSuccess(
-    json['release_id'] as int,
+    json['release_id'] as String,
     json['release_url'] as String,
   );
 }

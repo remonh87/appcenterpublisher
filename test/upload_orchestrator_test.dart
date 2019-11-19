@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:app_center_uploader/src/api_operation_data.dart';
+import 'package:app_center_uploader/src/event_logger.dart';
 import 'package:app_center_uploader/src/model/api_config.dart';
 import 'package:app_center_uploader/src/model/distribution_group.dart';
 import 'package:app_center_uploader/src/model/release_info.dart';
@@ -18,7 +19,7 @@ abstract class _UploadStub {
     @required AppRelease appRelease,
   });
 
-  Future<UploadBinaryResult> uploadBinary(String uploadUrl, String filePath);
+  Future<UploadBinaryResult> uploadBinary(String uploadUrl, String filePath, void Function(String message) log);
 
   Future<CommitReleaseResult> commitUpload(
       {Future<http.Response> Function(dynamic url, {Map<String, String> headers, dynamic body, Encoding encoding})
@@ -32,31 +33,34 @@ abstract class _UploadStub {
     @required DistributionGroup distributionGroup,
     @required ApiConfig config,
     @required String appName,
-    @required int releaseId,
+    @required String releaseId,
   });
 }
 
-class _MockUploader extends Mock implements _UploadStub {}
+class _UploaderMock extends Mock implements _UploadStub {}
+
+class _EventLoggerMock extends Mock implements EventLogger {}
 
 void main() {
-  _MockUploader uploader;
+  _UploaderMock uploader;
   UploadOrchestrator sut;
   const releaseInfo = ReleaseInfo(buildVersion: '1', buildNumber: '2', releaseId: 0);
   const release = AppRelease(appName: 'test', releaseInfo: releaseInfo);
   const config = ApiConfig(owner: 'me', apiToken: '1234');
   const distributionGroup = DistributionGroup(id: '123');
   const artefactLocation = '/test/arctefact.apk';
+  final eventLogger = _EventLoggerMock();
   const rundata =
       RunData(config: config, release: release, group: distributionGroup, artefactLocation: artefactLocation);
 
   setUp(() {
-    uploader = _MockUploader();
+    uploader = _UploaderMock();
     sut = UploadOrchestrator(
-      createUploadUrl: uploader.createUploadUrl,
-      uploadBinary: uploader.uploadBinary,
-      commitUpload: uploader.commitUpload,
-      distributeToGroup: uploader.distributeToGroup,
-    );
+        createUploadUrl: uploader.createUploadUrl,
+        uploadBinary: uploader.uploadBinary,
+        commitUpload: uploader.commitUpload,
+        distributeToGroup: uploader.distributeToGroup,
+        eventLogger: eventLogger);
   });
 
   group('Start upload', () {
@@ -67,7 +71,7 @@ void main() {
         appRelease: anyNamed('appRelease'),
       )).thenAnswer((_) => Future.value(const ReleaseUploadResult.failure(ApiOperationFailure(message: ''))));
 
-      when(uploader.uploadBinary(any, any))
+      when(uploader.uploadBinary(any, any, any))
           .thenAnswer((_) => Future.value(const UploadBinaryResult.failure(ApiOperationFailure(message: ''))));
 
       when(uploader.commitUpload(
@@ -105,12 +109,12 @@ void main() {
 
       test('It executes uploading binary with correct arguments', () async {
         await sut.run(rundata);
-        verify(uploader.uploadBinary('http://upload.test', artefactLocation)).called(1);
+        verify(uploader.uploadBinary('http://upload.test', artefactLocation, any)).called(1);
       });
 
       group('AND uploadBinary succeeds', () {
         setUp(() async {
-          when(uploader.uploadBinary(any, any))
+          when(uploader.uploadBinary(any, any, any))
               .thenAnswer((_) => Future.value(UploadBinaryResult.success(UploadBinaryOperationSuccess())));
 
           await sut.run(rundata);
@@ -123,7 +127,7 @@ void main() {
         });
 
         group('AND commit release succeeds', () {
-          final commitReleaseSuccess = CommitReleaseSuccess(12345678, 'http:/./qu/release12foo');
+          final commitReleaseSuccess = CommitReleaseSuccess('12345678', 'http:/./qu/release12foo');
           setUp(() {
             when(
               uploader.commitUpload(
@@ -209,7 +213,7 @@ void main() {
         int result = -100;
 
         setUp(() async {
-          when(uploader.uploadBinary(any, any))
+          when(uploader.uploadBinary(any, any, any))
               .thenAnswer((_) => Future.value(UploadBinaryResult.failure(ApiOperationFailure(message: 'failed'))));
           result = await sut.run(rundata);
         });
