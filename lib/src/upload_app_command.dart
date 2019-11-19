@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:app_center_uploader/src/api/commit_upload.dart';
 import 'package:app_center_uploader/src/api/create_upload_url.dart';
 import 'package:app_center_uploader/src/api/distribute_to_group.dart';
+import 'package:app_center_uploader/src/event_logger.dart';
 import 'package:app_center_uploader/src/model/run_data.dart';
 import 'package:app_center_uploader/src/parse_yaml.dart';
 import 'package:app_center_uploader/src/upload_orchestrator.dart';
@@ -29,6 +30,10 @@ class UploadAppCommand extends Command<dynamic> {
         abbr: 'c',
         help: 'Path to the config yaml',
         valueHelp: 'path',
+      )
+      ..addFlag(
+        'verbose',
+        abbr: 'v',
       );
   }
 
@@ -40,6 +45,9 @@ class UploadAppCommand extends Command<dynamic> {
 
   @override
   Future<void> run() async {
+    final eventLogger = EventLogger(verboseLoggingEnabled: argResults['verbose'] as bool);
+    eventLogger.log('Start uploading app');
+
     final yaml = File(argResults['config'] as String);
     final parsedYaml = parseYamlConfig(print, yaml);
     final runData = RunData.fromConfig(
@@ -50,12 +58,16 @@ class UploadAppCommand extends Command<dynamic> {
     );
 
     final orchestrator = UploadOrchestrator(
-        createUploadUrl: createUploadUrl,
-        uploadBinary: uploadBinaryToAppcenter,
-        commitUpload: commitUpload,
-        distributeToGroup: distributeToGroup);
+      createUploadUrl: createUploadUrl,
+      uploadBinary: uploadBinaryToAppcenter,
+      commitUpload: commitUpload,
+      distributeToGroup: distributeToGroup,
+      eventLogger: eventLogger,
+    );
 
     final result = await orchestrator.run(runData);
+
+    eventLogger.log('Uploading app exited with statuscode $result');
     exit(result);
   }
 }

@@ -18,7 +18,7 @@ Future<CommitReleaseResult> commitUpload({
   final result = await patch(
     '$appcenterBaseUrl/${config.owner}/$appName/release_uploads/$uploadId',
     headers: {'Content-Type': 'application/json', 'X-API-Token': '${config.apiToken}'},
-    body: <String, dynamic>{'status': 'comitted'},
+    body: '{ "status": "committed"  }',
   );
 
   if (result.statusCode == 200) {

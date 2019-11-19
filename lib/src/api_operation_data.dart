@@ -40,7 +40,7 @@ class CommitReleaseSuccess {
   const CommitReleaseSuccess(this.releaseId, this.releaseUrl);
 
   @JsonKey(name: 'release_id')
-  final int releaseId;
+  final String releaseId;
 
   @JsonKey(name: 'release_url')
   final String releaseUrl;

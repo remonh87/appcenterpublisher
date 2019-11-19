@@ -13,7 +13,7 @@ Future<DistributionResult> distributeToGroup({
   @required DistributionGroup distributionGroup,
   @required ApiConfig config,
   @required String appName,
-  @required int releaseId,
+  @required String releaseId,
 }) async {
   const encoder = JsonEncoder();
   final headers = {'Content-Type': 'application/json', 'Accept': 'application/json', 'X-API-Token': config.apiToken};

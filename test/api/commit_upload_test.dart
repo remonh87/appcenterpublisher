@@ -23,7 +23,7 @@ void main() {
           .thenAnswer((_) => Future.value(http.Response('{}', 200)));
     });
     group('Create request', () {
-      final payload = <String, dynamic>{'status': 'comitted'};
+      final payload = '{ "status": "committed"  }';
       const config = ApiConfig(owner: 'test', apiToken: '12345');
 
       test('It creates correct request', () {
@@ -38,13 +38,13 @@ void main() {
       group('GIVEN api returns success', () {
         setUp(() {
           when(client.patch(any, headers: anyNamed('headers'), body: anyNamed('body'))).thenAnswer(
-              (_) => Future.value(http.Response('{"release_id": 1234, "release_url": "http://foo1234"}', 200)));
+              (_) => Future.value(http.Response('{"release_id": "1234", "release_url": "http://foo1234"}', 200)));
         });
 
         test('It returns release id', () async {
           final response = await commitUpload(patch: client.patch, uploadId: '10', config: config, appName: 'test app');
           final result = response.iswitch(success: (s) => s, failure: (_) => throw AssertionError());
-          expect(result.releaseId, 1234);
+          expect(result.releaseId, '1234');
         });
 
         test('It returns release url', () async {

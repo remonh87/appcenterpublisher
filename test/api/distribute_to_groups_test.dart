@@ -34,7 +34,7 @@ void main() {
           post: client.post,
           distributionGroup: distributionGroup,
           config: config,
-          releaseId: 1,
+          releaseId: '1',
           appName: 'testApp',
         );
 
@@ -69,7 +69,7 @@ void main() {
           post: client.post,
           distributionGroup: distributionGroup,
           config: config,
-          releaseId: 1,
+          releaseId: '1',
           appName: 'test',
         );
 
@@ -93,7 +93,7 @@ void main() {
           post: client.post,
           distributionGroup: distributionGroup,
           config: config,
-          releaseId: 1,
+          releaseId: '1',
           appName: 'test',
         );
 
@@ -117,7 +117,7 @@ void main() {
           post: client.post,
           distributionGroup: distributionGroup,
           config: config,
-          releaseId: 1,
+          releaseId: '1',
           appName: 'test',
         );
 
