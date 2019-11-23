@@ -1,18 +1,18 @@
 import 'dart:io';
 
-import 'package:app_center_uploader/src/api/commit_upload.dart';
-import 'package:app_center_uploader/src/api/create_upload_url.dart';
-import 'package:app_center_uploader/src/api/distribute_to_group.dart';
-import 'package:app_center_uploader/src/event_logger.dart';
-import 'package:app_center_uploader/src/model/run_data.dart';
-import 'package:app_center_uploader/src/parse_yaml.dart';
-import 'package:app_center_uploader/src/upload_orchestrator.dart';
+import 'package:appcenterpublisher/src/api/commit_upload.dart';
+import 'package:appcenterpublisher/src/api/create_upload_url.dart';
+import 'package:appcenterpublisher/src/api/distribute_to_group.dart';
+import 'package:appcenterpublisher/src/event_logger.dart';
+import 'package:appcenterpublisher/src/model/run_data.dart';
+import 'package:appcenterpublisher/src/parse_yaml.dart';
+import 'package:appcenterpublisher/src/upload_orchestrator.dart';
 import 'package:args/command_runner.dart';
 
 import 'api/upload_binary.dart';
 
-class UploadAppCommand extends Command<dynamic> {
-  UploadAppCommand() {
+class PublishAppCommand extends Command<dynamic> {
+  PublishAppCommand() {
     argParser
       ..addOption(
         'apiToken',
@@ -41,7 +41,7 @@ class UploadAppCommand extends Command<dynamic> {
   String get description => 'Upload and and distribute your ipa or apk file to Microsoft Appcenter';
 
   @override
-  String get name => 'upload';
+  String get name => 'publish';
 
   @override
   Future<void> run() async {

@@ -1,6 +1,6 @@
-import 'package:app_center_uploader/src/model/api_config.dart';
-import 'package:app_center_uploader/src/model/distribution_group.dart';
-import 'package:app_center_uploader/src/model/release_info.dart';
+import 'package:appcenterpublisher/src/model/api_config.dart';
+import 'package:appcenterpublisher/src/model/distribution_group.dart';
+import 'package:appcenterpublisher/src/model/release_info.dart';
 import 'package:functional_data/functional_data.dart';
 import 'package:meta/meta.dart';
 

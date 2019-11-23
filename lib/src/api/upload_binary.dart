@@ -1,4 +1,4 @@
-import 'package:app_center_uploader/src/api_operation_data.dart';
+import 'package:appcenterpublisher/src/api_operation_data.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 import 'package:meta/meta.dart';

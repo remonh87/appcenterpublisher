@@ -1,11 +1,14 @@
-name: app_center_uploader
-description: Tool to upload binary to appcenter
+name: appcenterpublisher
+description: Tool to upload to upload and publish apps to appcenter
 version: 0.1.0
-publish_to: none
-
+homepage: https://github.com/remonh87/app_center_uploader
+email: Rémon Helmond <remonhelmond@gmail.com>
 
 environment:
   sdk: '>=2.4.0 <3.0.0'
+
+executables:
+  appcenterpublisher: main
 
 dependencies:
   args: ^1.5.2
