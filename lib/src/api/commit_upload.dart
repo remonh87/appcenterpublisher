@@ -1,8 +1,8 @@
 import 'dart:convert';
 
-import 'package:app_center_uploader/src/api/constants.dart';
-import 'package:app_center_uploader/src/api_operation_data.dart';
-import 'package:app_center_uploader/src/model/api_config.dart';
+import 'package:appcenterpublisher/src/api/constants.dart';
+import 'package:appcenterpublisher/src/api_operation_data.dart';
+import 'package:appcenterpublisher/src/model/api_config.dart';
 import 'package:http/http.dart' as http;
 import 'package:meta/meta.dart';
 

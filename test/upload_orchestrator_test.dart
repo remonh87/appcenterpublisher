@@ -1,12 +1,12 @@
 import 'dart:convert';
 
-import 'package:app_center_uploader/src/api_operation_data.dart';
-import 'package:app_center_uploader/src/event_logger.dart';
-import 'package:app_center_uploader/src/model/api_config.dart';
-import 'package:app_center_uploader/src/model/distribution_group.dart';
-import 'package:app_center_uploader/src/model/release_info.dart';
-import 'package:app_center_uploader/src/model/run_data.dart';
-import 'package:app_center_uploader/src/upload_orchestrator.dart';
+import 'package:appcenterpublisher/src/api_operation_data.dart';
+import 'package:appcenterpublisher/src/event_logger.dart';
+import 'package:appcenterpublisher/src/model/api_config.dart';
+import 'package:appcenterpublisher/src/model/distribution_group.dart';
+import 'package:appcenterpublisher/src/model/release_info.dart';
+import 'package:appcenterpublisher/src/model/run_data.dart';
+import 'package:appcenterpublisher/src/upload_orchestrator.dart';
 import 'package:meta/meta.dart';
 import 'package:http/http.dart' as http;
 import 'package:mockito/mockito.dart';

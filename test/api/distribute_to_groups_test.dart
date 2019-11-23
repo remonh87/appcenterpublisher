@@ -1,7 +1,7 @@
-import 'package:app_center_uploader/src/api/distribute_to_group.dart';
-import 'package:app_center_uploader/src/api_operation_data.dart';
-import 'package:app_center_uploader/src/model/api_config.dart';
-import 'package:app_center_uploader/src/model/distribution_group.dart';
+import 'package:appcenterpublisher/src/api/distribute_to_group.dart';
+import 'package:appcenterpublisher/src/api_operation_data.dart';
+import 'package:appcenterpublisher/src/model/api_config.dart';
+import 'package:appcenterpublisher/src/model/distribution_group.dart';
 import 'package:mockito/mockito.dart';
 import 'package:test/test.dart';
 import 'package:http/http.dart' as http;

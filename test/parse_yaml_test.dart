@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:app_center_uploader/src/parse_yaml.dart';
+import 'package:appcenterpublisher/src/parse_yaml.dart';
 import 'package:mockito/mockito.dart';
 import 'package:test/test.dart';
 
