@@ -3,6 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart';
 
 part 'distribution_group.g.dart';
+// ignore_for_file: annotate_overrides
 
 @JsonSerializable(fieldRename: FieldRename.snake)
 @FunctionalData()

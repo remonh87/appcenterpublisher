@@ -30,7 +30,7 @@ Future<ReleaseUploadResult> createUploadUrl({
   ).then((response) {
     if (response.statusCode == 201) {
       return ReleaseUploadResult.success(ReleaseUploadOperationSuccess.fromJson(
-          decoder.convert(response.body)));
+          decoder.convert(response.body) as Map<String, dynamic>));
     } else {
       final bodyconverted =
           decoder.convert(response.body) as Map<String, dynamic>;

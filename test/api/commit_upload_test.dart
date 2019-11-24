@@ -7,6 +7,7 @@ import 'package:mockito/mockito.dart';
 import 'package:test/test.dart';
 import 'package:http/http.dart' as http;
 
+// ignore: one_member_abstracts
 abstract class _HttpClient {
   Future<http.Response> patch(dynamic url,
       {Map<String, String> headers, dynamic body, Encoding encoding});
@@ -25,7 +26,7 @@ void main() {
           .thenAnswer((_) => Future.value(http.Response('{}', 200)));
     });
     group('Create request', () {
-      final payload = '{ "status": "committed"  }';
+      const payload = '{ "status": "committed"  }';
       const config = ApiConfig(owner: 'test', apiToken: '12345');
 
       test('It creates correct request', () {

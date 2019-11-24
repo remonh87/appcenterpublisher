@@ -27,8 +27,8 @@ Future<CommitReleaseResult> commitUpload({
   );
 
   if (result.statusCode == 200) {
-    return CommitReleaseResult.success(
-        CommitReleaseSuccess.fromJson(decoder.convert(result.body)));
+    return CommitReleaseResult.success(CommitReleaseSuccess.fromJson(
+        decoder.convert(result.body) as Map<String, dynamic>));
   } else {
     return CommitReleaseResult.failure(
       ApiOperationFailure(

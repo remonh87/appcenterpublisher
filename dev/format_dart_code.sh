@@ -1,3 +1,3 @@
 #!/bin/bash -ex
 
-dartfmt --overwrite --fix "$@" .
+dartfmt --overwrite --fix --set-exit-if-changed "$@" .

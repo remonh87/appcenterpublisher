@@ -4,6 +4,7 @@ import 'package:appcenterpublisher/src/parse_yaml.dart';
 import 'package:mockito/mockito.dart';
 import 'package:test/test.dart';
 
+// ignore: one_member_abstracts
 abstract class _Logger {
   void print(Object object);
 }

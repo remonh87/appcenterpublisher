@@ -7,20 +7,9 @@ Map<String, String> parseYamlConfig(
   final fileContents = yamlFile.readAsStringSync();
   log('Parsing yamlfile: ${yamlFile.path}');
 
-  try {
-    final config = yaml.loadYaml(fileContents) as yaml.YamlMap;
+  final config = yaml.loadYaml(fileContents) as yaml.YamlMap;
 
-    final convertedMap =
-        config.map((k, v) => MapEntry(k.toString(), v.toString()));
-    return convertedMap;
-  } on Error catch (e) {
-    log('Error parsing yaml failed message: $e');
-    throw ParseConfigException(e.toString());
-  }
-}
-
-class ParseConfigException {
-  const ParseConfigException(this.message);
-
-  final String message;
+  final convertedMap = config.map((dynamic key, dynamic value) =>
+      MapEntry(key.toString(), value.toString()));
+  return convertedMap;
 }

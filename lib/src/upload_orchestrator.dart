@@ -68,18 +68,21 @@ class UploadOrchestrator {
         appRelease: rundata.release);
 
     return await result.iswitch(success: (createReleaseResult) async {
-      eventLogger.log('Creating upload url succeeded');
-      eventLogger.log('Uploading binary from ${rundata.artefactLocation}...');
+      eventLogger
+        ..log('Creating upload url succeeded')
+        ..log('Uploading binary from ${rundata.artefactLocation}...');
       final uploadResult = await _uploadBinary(
           createReleaseResult.uploadUrl, rundata.artefactLocation);
       return uploadResult.iswitch(success: (_) async {
-        eventLogger.log('Uploading binary succesfull');
-        eventLogger.log('Committing release ...');
+        eventLogger
+          ..log('Uploading binary succesfull')
+          ..log('Committing release ...');
         final commitResult = await _commitRelease(createReleaseResult.uploadId,
             rundata.config, rundata.release.appName);
         return commitResult.iswitch(success: (c) {
-          eventLogger.log('Commiting release succesfull');
-          eventLogger.log('Distributing release ...');
+          eventLogger
+            ..log('Commiting release succesfull')
+            ..log('Distributing release ...');
           return _distributeToGroup(rundata.config, c.releaseId,
               rundata.release.appName, rundata.group.id);
         }, failure: (f) {
@@ -98,11 +101,11 @@ class UploadOrchestrator {
 
   Future<UploadBinaryResult> _uploadBinary(
           String uploadUrl, String artefactLocation) async =>
-      await uploadBinary(uploadUrl, artefactLocation, eventLogger.logVerbose);
+      uploadBinary(uploadUrl, artefactLocation, eventLogger.logVerbose);
 
   Future<CommitReleaseResult> _commitRelease(
           String uploadId, ApiConfig config, String appName) async =>
-      await commitUpload(
+      commitUpload(
           patch: http.patch,
           uploadId: uploadId,
           config: config,
