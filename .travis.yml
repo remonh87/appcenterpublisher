@@ -1,4 +1,6 @@
 language: dart
 
-script:
-  - dev/dart_quality_checks.sh
+dart_task:
+  - test
+  - dartanalyzer: --fatal-warnings lib
+  - dartfmt
