@@ -1,7 +1,7 @@
 name: appcenterpublisher
 author: Rémon Helmond <remonhelmond@gmail.com>
-description: Tool to upload to upload and publish apps to appcenter
-version: 0.1.0
+description: Tool to upload to upload and publish apps to appcenter using the REST API.
+version: 0.1.0+1
 homepage: https://github.com/remonh87/app_center_uploader
 
 environment:
