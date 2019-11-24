@@ -48,14 +48,14 @@ class PublishAppCommand extends Command<dynamic> {
   Future<void> run() async {
     final eventLogger =
         EventLogger(verboseLoggingEnabled: argResults['verbose'] as bool);
-    eventLogger.log('Start uploading app');
-
     final yaml = File(argResults['config'] as String);
+
+    eventLogger.log('Start uploading app');
     final parsedYaml = parseYamlConfig(print, yaml);
     final runData = RunData.fromConfig(
-      apiToken: argResults['apiToken'],
+      apiToken: argResults['apiToken'].toString(),
       buildVersion: '0.1',
-      artefactlocation: argResults['binary'],
+      artefactlocation: argResults['binary'].toString(),
       yaml: parsedYaml,
     );
 

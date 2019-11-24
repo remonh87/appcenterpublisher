@@ -4,7 +4,7 @@ import 'package:sum_types/sum_types.dart';
 import 'package:meta/meta.dart';
 
 part 'api_operation_data.g.dart';
-// ignore_for_file: annotate_overrides
+//ignore_for_file: sort_constructors_first, annotate_overrides,
 
 @SumType()
 class DistributionResult extends _$DistributionResult {
@@ -47,14 +47,14 @@ class CommitReleaseResult extends _$CommitReleaseResult {
 class CommitReleaseSuccess {
   const CommitReleaseSuccess(this.releaseId, this.releaseUrl);
 
+  factory CommitReleaseSuccess.fromJson(Map<String, dynamic> json) =>
+      _$CommitReleaseSuccessFromJson(json);
+
   @JsonKey(name: 'release_id')
   final String releaseId;
 
   @JsonKey(name: 'release_url')
   final String releaseUrl;
-
-  factory CommitReleaseSuccess.fromJson(Map<String, dynamic> json) =>
-      _$CommitReleaseSuccessFromJson(json);
 
   Map<String, dynamic> toJson() => _$CommitReleaseSuccessToJson(this);
 }

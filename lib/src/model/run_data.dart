@@ -5,6 +5,7 @@ import 'package:functional_data/functional_data.dart';
 import 'package:meta/meta.dart';
 
 part 'run_data.g.dart';
+// ignore_for_file: annotate_overrides
 
 @FunctionalData()
 class RunData extends $RunData {

@@ -6,6 +6,7 @@ import 'package:mockito/mockito.dart';
 import 'package:test/test.dart';
 import 'package:http/http.dart' as http;
 
+// ignore: one_member_abstracts
 abstract class _HttpClient {
   Future<http.Response> post(dynamic url,
       {Map<String, String> headers, dynamic body});
@@ -17,9 +18,9 @@ void main() {
   group('$distributeToGroup', () {
     _MockHttpClient client;
 
-    final distributionGroup = DistributionGroup(
+    const distributionGroup = DistributionGroup(
         id: '123-456-789', mandatoryUpdate: true, notifyTesters: true);
-    final config = ApiConfig(owner: 'test', apiToken: '1243432');
+    const config = ApiConfig(owner: 'test', apiToken: '1243432');
 
     group('Create correct request', () {
       setUp(() {
@@ -40,7 +41,7 @@ void main() {
           appName: 'testApp',
         );
 
-        final expectedUrl =
+        const expectedUrl =
             'https://api.appcenter.ms/v0.1/apps/test/testApp/releases/1/groups';
         final expectedHeaders = {
           'Content-Type': 'application/json',
@@ -80,7 +81,7 @@ void main() {
         final result = response.iswitch(
             success: (s) => s, failure: (_) => throw AssertionError());
 
-        expect(result, TypeMatcher<DistributionSuccess>());
+        expect(result, const TypeMatcher<DistributionSuccess>());
       });
     });
 
@@ -107,7 +108,7 @@ void main() {
 
         expect(
             result,
-            ApiOperationFailure(
+            const ApiOperationFailure(
                 message: 'Distributiongroup: 123-456-789 cannot be found'));
       });
     });
@@ -135,7 +136,7 @@ void main() {
 
         expect(
             result,
-            ApiOperationFailure(
+            const ApiOperationFailure(
                 message: 'Distributing failed error: {whoops}'));
       });
     });
