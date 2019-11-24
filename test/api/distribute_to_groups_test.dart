@@ -7,7 +7,8 @@ import 'package:test/test.dart';
 import 'package:http/http.dart' as http;
 
 abstract class _HttpClient {
-  Future<http.Response> post(dynamic url, {Map<String, String> headers, dynamic body});
+  Future<http.Response> post(dynamic url,
+      {Map<String, String> headers, dynamic body});
 }
 
 class _MockHttpClient extends Mock implements _HttpClient {}
@@ -16,7 +17,8 @@ void main() {
   group('$distributeToGroup', () {
     _MockHttpClient client;
 
-    final distributionGroup = DistributionGroup(id: '123-456-789', mandatoryUpdate: true, notifyTesters: true);
+    final distributionGroup = DistributionGroup(
+        id: '123-456-789', mandatoryUpdate: true, notifyTesters: true);
     final config = ApiConfig(owner: 'test', apiToken: '1243432');
 
     group('Create correct request', () {
@@ -38,7 +40,8 @@ void main() {
           appName: 'testApp',
         );
 
-        final expectedUrl = 'https://api.appcenter.ms/v0.1/apps/test/testApp/releases/1/groups';
+        final expectedUrl =
+            'https://api.appcenter.ms/v0.1/apps/test/testApp/releases/1/groups';
         final expectedHeaders = {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
@@ -49,7 +52,8 @@ void main() {
           client.post(
             expectedUrl,
             headers: expectedHeaders,
-            body: '{"id":"123-456-789","mandatory_update":true,"notify_testers":true}',
+            body:
+                '{"id":"123-456-789","mandatory_update":true,"notify_testers":true}',
           ),
         ).called(1);
       });
@@ -73,7 +77,8 @@ void main() {
           appName: 'test',
         );
 
-        final result = response.iswitch(success: (s) => s, failure: (_) => throw AssertionError());
+        final result = response.iswitch(
+            success: (s) => s, failure: (_) => throw AssertionError());
 
         expect(result, TypeMatcher<DistributionSuccess>());
       });
@@ -97,9 +102,13 @@ void main() {
           appName: 'test',
         );
 
-        final result = response.iswitch(success: (_) => throw AssertionError(), failure: (f) => f);
+        final result = response.iswitch(
+            success: (_) => throw AssertionError(), failure: (f) => f);
 
-        expect(result, ApiOperationFailure(message: 'Distributiongroup: 123-456-789 cannot be found'));
+        expect(
+            result,
+            ApiOperationFailure(
+                message: 'Distributiongroup: 123-456-789 cannot be found'));
       });
     });
 
@@ -121,9 +130,13 @@ void main() {
           appName: 'test',
         );
 
-        final result = response.iswitch(success: (_) => throw AssertionError(), failure: (f) => f);
+        final result = response.iswitch(
+            success: (_) => throw AssertionError(), failure: (f) => f);
 
-        expect(result, ApiOperationFailure(message: 'Distributing failed error: {whoops}'));
+        expect(
+            result,
+            ApiOperationFailure(
+                message: 'Distributing failed error: {whoops}'));
       });
     });
   });
