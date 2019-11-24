@@ -5,7 +5,7 @@ version: 0.1.0
 homepage: https://github.com/remonh87/app_center_uploader
 
 environment:
-  sdk: '>=2.4.0 <3.0.0'
+  sdk: '>=2.6.0 <3.0.0'
 
 executables:
   appcenterpublisher: main

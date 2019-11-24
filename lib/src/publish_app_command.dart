@@ -38,14 +38,16 @@ class PublishAppCommand extends Command<dynamic> {
   }
 
   @override
-  String get description => 'Upload and and distribute your ipa or apk file to Microsoft Appcenter';
+  String get description =>
+      'Upload and and distribute your ipa or apk file to Microsoft Appcenter';
 
   @override
   String get name => 'publish';
 
   @override
   Future<void> run() async {
-    final eventLogger = EventLogger(verboseLoggingEnabled: argResults['verbose'] as bool);
+    final eventLogger =
+        EventLogger(verboseLoggingEnabled: argResults['verbose'] as bool);
     eventLogger.log('Start uploading app');
 
     final yaml = File(argResults['config'] as String);

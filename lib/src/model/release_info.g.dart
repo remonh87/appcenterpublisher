@@ -10,11 +10,15 @@ abstract class $AppRelease {
   String get appName;
   ReleaseInfo get releaseInfo;
   const $AppRelease();
-  AppRelease copyWith({String appName, ReleaseInfo releaseInfo}) =>
-      AppRelease(appName: appName ?? this.appName, releaseInfo: releaseInfo ?? this.releaseInfo);
-  String toString() => "AppRelease(appName: $appName, releaseInfo: $releaseInfo)";
+  AppRelease copyWith({String appName, ReleaseInfo releaseInfo}) => AppRelease(
+      appName: appName ?? this.appName,
+      releaseInfo: releaseInfo ?? this.releaseInfo);
+  String toString() =>
+      "AppRelease(appName: $appName, releaseInfo: $releaseInfo)";
   bool operator ==(dynamic other) =>
-      other.runtimeType == runtimeType && appName == other.appName && releaseInfo == other.releaseInfo;
+      other.runtimeType == runtimeType &&
+      appName == other.appName &&
+      releaseInfo == other.releaseInfo;
   @override
   int get hashCode {
     var result = 17;
@@ -25,9 +29,11 @@ abstract class $AppRelease {
 }
 
 class AppRelease$ {
-  static final appName = Lens<AppRelease, String>((s_) => s_.appName, (s_, appName) => s_.copyWith(appName: appName));
-  static final releaseInfo =
-      Lens<AppRelease, ReleaseInfo>((s_) => s_.releaseInfo, (s_, releaseInfo) => s_.copyWith(releaseInfo: releaseInfo));
+  static final appName = Lens<AppRelease, String>(
+      (s_) => s_.appName, (s_, appName) => s_.copyWith(appName: appName));
+  static final releaseInfo = Lens<AppRelease, ReleaseInfo>(
+      (s_) => s_.releaseInfo,
+      (s_, releaseInfo) => s_.copyWith(releaseInfo: releaseInfo));
 }
 
 abstract class $ReleaseInfo {
@@ -35,11 +41,14 @@ abstract class $ReleaseInfo {
   String get buildNumber;
   int get releaseId;
   const $ReleaseInfo();
-  ReleaseInfo copyWith({String buildVersion, String buildNumber, int releaseId}) => ReleaseInfo(
-      buildVersion: buildVersion ?? this.buildVersion,
-      buildNumber: buildNumber ?? this.buildNumber,
-      releaseId: releaseId ?? this.releaseId);
-  String toString() => "ReleaseInfo(buildVersion: $buildVersion, buildNumber: $buildNumber, releaseId: $releaseId)";
+  ReleaseInfo copyWith(
+          {String buildVersion, String buildNumber, int releaseId}) =>
+      ReleaseInfo(
+          buildVersion: buildVersion ?? this.buildVersion,
+          buildNumber: buildNumber ?? this.buildNumber,
+          releaseId: releaseId ?? this.releaseId);
+  String toString() =>
+      "ReleaseInfo(buildVersion: $buildVersion, buildNumber: $buildNumber, releaseId: $releaseId)";
   bool operator ==(dynamic other) =>
       other.runtimeType == runtimeType &&
       buildVersion == other.buildVersion &&
@@ -56,12 +65,12 @@ abstract class $ReleaseInfo {
 }
 
 class ReleaseInfo$ {
-  static final buildVersion =
-      Lens<ReleaseInfo, String>((s_) => s_.buildVersion, (s_, buildVersion) => s_.copyWith(buildVersion: buildVersion));
-  static final buildNumber =
-      Lens<ReleaseInfo, String>((s_) => s_.buildNumber, (s_, buildNumber) => s_.copyWith(buildNumber: buildNumber));
-  static final releaseId =
-      Lens<ReleaseInfo, int>((s_) => s_.releaseId, (s_, releaseId) => s_.copyWith(releaseId: releaseId));
+  static final buildVersion = Lens<ReleaseInfo, String>((s_) => s_.buildVersion,
+      (s_, buildVersion) => s_.copyWith(buildVersion: buildVersion));
+  static final buildNumber = Lens<ReleaseInfo, String>((s_) => s_.buildNumber,
+      (s_, buildNumber) => s_.copyWith(buildNumber: buildNumber));
+  static final releaseId = Lens<ReleaseInfo, int>((s_) => s_.releaseId,
+      (s_, releaseId) => s_.copyWith(releaseId: releaseId));
 }
 
 // **************************************************************************

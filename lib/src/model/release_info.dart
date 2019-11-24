@@ -26,7 +26,8 @@ class ReleaseInfo extends $ReleaseInfo {
     this.releaseId,
   });
 
-  factory ReleaseInfo.fromJson(Map<String, dynamic> json) => _$ReleaseInfoFromJson(json);
+  factory ReleaseInfo.fromJson(Map<String, dynamic> json) =>
+      _$ReleaseInfoFromJson(json);
 
   final String buildVersion;
   final String buildNumber;

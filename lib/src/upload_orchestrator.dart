@@ -19,14 +19,20 @@ class UploadOrchestrator {
   });
 
   final Future<ReleaseUploadResult> Function({
-    @required Future<http.Response> Function(dynamic url, {Map<String, String> headers, dynamic body}) callApi,
+    @required
+        Future<http.Response> Function(dynamic url,
+                {Map<String, String> headers, dynamic body})
+            callApi,
     @required ApiConfig config,
     @required AppRelease appRelease,
   }) createUploadUrl;
 
   final Future<CommitReleaseResult> Function(
       {@required
-          Future<http.Response> Function(dynamic url, {Map<String, String> headers, dynamic body, Encoding encoding})
+          Future<http.Response> Function(dynamic url,
+                  {Map<String, String> headers,
+                  dynamic body,
+                  Encoding encoding})
               patch,
       @required
           String uploadId,
@@ -42,7 +48,10 @@ class UploadOrchestrator {
   ) uploadBinary;
 
   final Future<DistributionResult> Function({
-    @required Future<http.Response> Function(dynamic url, {Map<String, String> headers, dynamic body}) post,
+    @required
+        Future<http.Response> Function(dynamic url,
+                {Map<String, String> headers, dynamic body})
+            post,
     @required DistributionGroup distributionGroup,
     @required ApiConfig config,
     @required String appName,
@@ -53,21 +62,26 @@ class UploadOrchestrator {
 
   Future<int> run(RunData rundata) async {
     eventLogger.log('Creating upload url ...');
-    final result = await createUploadUrl(callApi: http.post, config: rundata.config, appRelease: rundata.release);
+    final result = await createUploadUrl(
+        callApi: http.post,
+        config: rundata.config,
+        appRelease: rundata.release);
 
     return await result.iswitch(success: (createReleaseResult) async {
       eventLogger.log('Creating upload url succeeded');
       eventLogger.log('Uploading binary from ${rundata.artefactLocation}...');
-      final uploadResult = await _uploadBinary(createReleaseResult.uploadUrl, rundata.artefactLocation);
+      final uploadResult = await _uploadBinary(
+          createReleaseResult.uploadUrl, rundata.artefactLocation);
       return uploadResult.iswitch(success: (_) async {
         eventLogger.log('Uploading binary succesfull');
         eventLogger.log('Committing release ...');
-        final commitResult =
-            await _commitRelease(createReleaseResult.uploadId, rundata.config, rundata.release.appName);
+        final commitResult = await _commitRelease(createReleaseResult.uploadId,
+            rundata.config, rundata.release.appName);
         return commitResult.iswitch(success: (c) {
           eventLogger.log('Commiting release succesfull');
           eventLogger.log('Distributing release ...');
-          return _distributeToGroup(rundata.config, c.releaseId, rundata.release.appName, rundata.group.id);
+          return _distributeToGroup(rundata.config, c.releaseId,
+              rundata.release.appName, rundata.group.id);
         }, failure: (f) {
           eventLogger.log('Comitting release failed: $f');
           return 1;
@@ -82,13 +96,20 @@ class UploadOrchestrator {
     });
   }
 
-  Future<UploadBinaryResult> _uploadBinary(String uploadUrl, String artefactLocation) async =>
+  Future<UploadBinaryResult> _uploadBinary(
+          String uploadUrl, String artefactLocation) async =>
       await uploadBinary(uploadUrl, artefactLocation, eventLogger.logVerbose);
 
-  Future<CommitReleaseResult> _commitRelease(String uploadId, ApiConfig config, String appName) async =>
-      await commitUpload(patch: http.patch, uploadId: uploadId, config: config, appName: appName);
+  Future<CommitReleaseResult> _commitRelease(
+          String uploadId, ApiConfig config, String appName) async =>
+      await commitUpload(
+          patch: http.patch,
+          uploadId: uploadId,
+          config: config,
+          appName: appName);
 
-  Future<int> _distributeToGroup(ApiConfig config, String releaseId, String appName, String distributionGroup) async {
+  Future<int> _distributeToGroup(ApiConfig config, String releaseId,
+      String appName, String distributionGroup) async {
     eventLogger.log('Start distributing release');
     final distributiongroup = DistributionGroup(id: distributionGroup);
     final result = await distributeToGroup(

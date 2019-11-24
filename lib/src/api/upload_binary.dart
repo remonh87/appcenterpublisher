@@ -20,15 +20,16 @@ Future<UploadBinaryResult> uploadBinary({
 }) async {
   final contenType = MediaType('multipart', 'form-data');
 
-  final multiPartfile = await http.MultipartFile.fromPath('ipa', path, contentType: contenType);
+  final multiPartfile =
+      await http.MultipartFile.fromPath('ipa', path, contentType: contenType);
   request.files.add(multiPartfile);
 
   return request.send().then((response) {
     if (response.statusCode == 204) {
       return UploadBinaryResult.success(UploadBinaryOperationSuccess());
     } else {
-      return UploadBinaryResult.failure(
-          ApiOperationFailure(message: 'Upload failed: statuscode=${response.statusCode}'));
+      return UploadBinaryResult.failure(ApiOperationFailure(
+          message: 'Upload failed: statuscode=${response.statusCode}'));
     }
   });
 }
