@@ -14,22 +14,30 @@ import 'package:test/test.dart';
 
 abstract class _UploadStub {
   Future<ReleaseUploadResult> createUploadUrl({
-    @required Future<http.Response> Function(dynamic url, {Map<String, String> headers, dynamic body}) callApi,
+    @required
+        Future<http.Response> Function(dynamic url,
+                {Map<String, String> headers, dynamic body})
+            callApi,
     @required ApiConfig config,
     @required AppRelease appRelease,
   });
 
-  Future<UploadBinaryResult> uploadBinary(String uploadUrl, String filePath, void Function(String message) log);
+  Future<UploadBinaryResult> uploadBinary(
+      String uploadUrl, String filePath, void Function(String message) log);
 
   Future<CommitReleaseResult> commitUpload(
-      {Future<http.Response> Function(dynamic url, {Map<String, String> headers, dynamic body, Encoding encoding})
+      {Future<http.Response> Function(dynamic url,
+              {Map<String, String> headers, dynamic body, Encoding encoding})
           patch,
       String uploadId,
       ApiConfig config,
       String appName});
 
   Future<DistributionResult> distributeToGroup({
-    @required Future<http.Response> Function(dynamic url, {Map<String, String> headers, dynamic body}) post,
+    @required
+        Future<http.Response> Function(dynamic url,
+                {Map<String, String> headers, dynamic body})
+            post,
     @required DistributionGroup distributionGroup,
     @required ApiConfig config,
     @required String appName,
@@ -44,14 +52,18 @@ class _EventLoggerMock extends Mock implements EventLogger {}
 void main() {
   _UploaderMock uploader;
   UploadOrchestrator sut;
-  const releaseInfo = ReleaseInfo(buildVersion: '1', buildNumber: '2', releaseId: 0);
+  const releaseInfo =
+      ReleaseInfo(buildVersion: '1', buildNumber: '2', releaseId: 0);
   const release = AppRelease(appName: 'test', releaseInfo: releaseInfo);
   const config = ApiConfig(owner: 'me', apiToken: '1234');
   const distributionGroup = DistributionGroup(id: '123');
   const artefactLocation = '/test/arctefact.apk';
   final eventLogger = _EventLoggerMock();
-  const rundata =
-      RunData(config: config, release: release, group: distributionGroup, artefactLocation: artefactLocation);
+  const rundata = RunData(
+      config: config,
+      release: release,
+      group: distributionGroup,
+      artefactLocation: artefactLocation);
 
   setUp(() {
     uploader = _UploaderMock();
@@ -69,17 +81,19 @@ void main() {
         callApi: anyNamed('callApi'),
         config: anyNamed('config'),
         appRelease: anyNamed('appRelease'),
-      )).thenAnswer((_) => Future.value(const ReleaseUploadResult.failure(ApiOperationFailure(message: ''))));
+      )).thenAnswer((_) => Future.value(
+          const ReleaseUploadResult.failure(ApiOperationFailure(message: ''))));
 
-      when(uploader.uploadBinary(any, any, any))
-          .thenAnswer((_) => Future.value(const UploadBinaryResult.failure(ApiOperationFailure(message: ''))));
+      when(uploader.uploadBinary(any, any, any)).thenAnswer((_) => Future.value(
+          const UploadBinaryResult.failure(ApiOperationFailure(message: ''))));
 
       when(uploader.commitUpload(
         patch: anyNamed('patch'),
         uploadId: anyNamed('uploadId'),
         appName: anyNamed('appName'),
         config: anyNamed('config'),
-      )).thenAnswer((_) => Future.value(const CommitReleaseResult.failure(ApiOperationFailure(message: ''))));
+      )).thenAnswer((_) => Future.value(
+          const CommitReleaseResult.failure(ApiOperationFailure(message: ''))));
 
       when(
         uploader.distributeToGroup(
@@ -89,45 +103,59 @@ void main() {
           appName: anyNamed('appName'),
           releaseId: anyNamed('releaseId'),
         ),
-      ).thenAnswer((_) => Future.value(DistributionResult.success(DistributionSuccess())));
+      ).thenAnswer((_) =>
+          Future.value(DistributionResult.success(DistributionSuccess())));
 
       await sut.run(rundata);
     });
 
-    test('It executes createuploadurl function with correct arguments', () async {
-      verify(uploader.createUploadUrl(callApi: http.post, config: config, appRelease: release)).called(1);
+    test('It executes createuploadurl function with correct arguments',
+        () async {
+      verify(uploader.createUploadUrl(
+              callApi: http.post, config: config, appRelease: release))
+          .called(1);
     });
 
     group('GIVEN create uploadurl succeeds', () {
       const uploadId = 206;
       setUp(() async {
         when(uploader.createUploadUrl(
-                callApi: anyNamed('callApi'), config: anyNamed('config'), appRelease: anyNamed('appRelease')))
-            .thenAnswer((_) => Future.value(
-                ReleaseUploadResult.success(ReleaseUploadOperationSuccess(uploadId.toString(), 'http://upload.test'))));
+                callApi: anyNamed('callApi'),
+                config: anyNamed('config'),
+                appRelease: anyNamed('appRelease')))
+            .thenAnswer((_) => Future.value(ReleaseUploadResult.success(
+                ReleaseUploadOperationSuccess(
+                    uploadId.toString(), 'http://upload.test'))));
       });
 
       test('It executes uploading binary with correct arguments', () async {
         await sut.run(rundata);
-        verify(uploader.uploadBinary('http://upload.test', artefactLocation, any)).called(1);
+        verify(uploader.uploadBinary(
+                'http://upload.test', artefactLocation, any))
+            .called(1);
       });
 
       group('AND uploadBinary succeeds', () {
         setUp(() async {
-          when(uploader.uploadBinary(any, any, any))
-              .thenAnswer((_) => Future.value(UploadBinaryResult.success(UploadBinaryOperationSuccess())));
+          when(uploader.uploadBinary(any, any, any)).thenAnswer((_) =>
+              Future.value(
+                  UploadBinaryResult.success(UploadBinaryOperationSuccess())));
 
           await sut.run(rundata);
         });
 
         test('It executes commit upload with correct arguments', () async {
           verify(uploader.commitUpload(
-                  patch: http.patch, uploadId: uploadId.toString(), config: config, appName: 'test'))
+                  patch: http.patch,
+                  uploadId: uploadId.toString(),
+                  config: config,
+                  appName: 'test'))
               .called(1);
         });
 
         group('AND commit release succeeds', () {
-          const commitReleaseSuccess = CommitReleaseSuccess('12345678', 'http:/./qu/release12foo');
+          const commitReleaseSuccess =
+              CommitReleaseSuccess('12345678', 'http:/./qu/release12foo');
           setUp(() {
             when(
               uploader.commitUpload(
@@ -135,12 +163,16 @@ void main() {
                   uploadId: anyNamed('uploadId'),
                   config: anyNamed('config'),
                   appName: anyNamed('appName')),
-            ).thenAnswer((_) => Future.value(const CommitReleaseResult.success(commitReleaseSuccess)));
+            ).thenAnswer((_) => Future.value(
+                const CommitReleaseResult.success(commitReleaseSuccess)));
           });
 
           test('It calls distribute to group', () async {
             await sut.run(rundata);
-            final group = DistributionGroup(id: distributionGroup.id, mandatoryUpdate: true, notifyTesters: true);
+            final group = DistributionGroup(
+                id: distributionGroup.id,
+                mandatoryUpdate: true,
+                notifyTesters: true);
             verify(
               uploader.distributeToGroup(
                   post: http.post,
@@ -161,7 +193,8 @@ void main() {
                   appName: anyNamed('appName'),
                   releaseId: anyNamed('releaseId'),
                 ),
-              ).thenAnswer((_) => Future.value(DistributionResult.success(DistributionSuccess())));
+              ).thenAnswer((_) => Future.value(
+                  DistributionResult.success(DistributionSuccess())));
             });
 
             test('It returns exit code 0', () async {
@@ -180,8 +213,8 @@ void main() {
                   appName: anyNamed('appName'),
                   releaseId: anyNamed('releaseId'),
                 ),
-              ).thenAnswer(
-                  (_) => Future.value(const DistributionResult.failure(ApiOperationFailure(message: 'whoops'))));
+              ).thenAnswer((_) => Future.value(const DistributionResult.failure(
+                  ApiOperationFailure(message: 'whoops'))));
             });
 
             test('It returns exit code 1', () async {
@@ -199,8 +232,8 @@ void main() {
                   uploadId: anyNamed('uploadId'),
                   config: anyNamed('config'),
                   appName: anyNamed('appName')),
-            ).thenAnswer(
-                (_) => Future.value(const CommitReleaseResult.failure(ApiOperationFailure(message: 'commit failed'))));
+            ).thenAnswer((_) => Future.value(const CommitReleaseResult.failure(
+                ApiOperationFailure(message: 'commit failed'))));
           });
 
           test('It returns exit code 1®', () async {
@@ -214,8 +247,9 @@ void main() {
         var result = -100;
 
         setUp(() async {
-          when(uploader.uploadBinary(any, any, any)).thenAnswer(
-              (_) => Future.value(const UploadBinaryResult.failure(ApiOperationFailure(message: 'failed'))));
+          when(uploader.uploadBinary(any, any, any)).thenAnswer((_) =>
+              Future.value(const UploadBinaryResult.failure(
+                  ApiOperationFailure(message: 'failed'))));
           result = await sut.run(rundata);
         });
 
@@ -237,8 +271,11 @@ void main() {
     group('Given create uploadurl fails', () {
       setUp(() async {
         when(uploader.createUploadUrl(
-                callApi: anyNamed('callApi'), config: anyNamed('config'), appRelease: anyNamed('appRelease')))
-            .thenAnswer((_) => Future.value(const ReleaseUploadResult.failure(ApiOperationFailure(message: ''))));
+                callApi: anyNamed('callApi'),
+                config: anyNamed('config'),
+                appRelease: anyNamed('appRelease')))
+            .thenAnswer((_) => Future.value(const ReleaseUploadResult.failure(
+                ApiOperationFailure(message: ''))));
       });
 
       test('It returns exitcode 1', () async {
