@@ -11,14 +11,11 @@ abstract class $DistributionGroup {
   bool get mandatoryUpdate;
   bool get notifyTesters;
   const $DistributionGroup();
-  DistributionGroup copyWith(
-          {String id, bool mandatoryUpdate, bool notifyTesters}) =>
-      DistributionGroup(
-          id: id ?? this.id,
-          mandatoryUpdate: mandatoryUpdate ?? this.mandatoryUpdate,
-          notifyTesters: notifyTesters ?? this.notifyTesters);
-  String toString() =>
-      "DistributionGroup(id: $id, mandatoryUpdate: $mandatoryUpdate, notifyTesters: $notifyTesters)";
+  DistributionGroup copyWith({String id, bool mandatoryUpdate, bool notifyTesters}) => DistributionGroup(
+      id: id ?? this.id,
+      mandatoryUpdate: mandatoryUpdate ?? this.mandatoryUpdate,
+      notifyTesters: notifyTesters ?? this.notifyTesters);
+  String toString() => "DistributionGroup(id: $id, mandatoryUpdate: $mandatoryUpdate, notifyTesters: $notifyTesters)";
   bool operator ==(dynamic other) =>
       other.runtimeType == runtimeType &&
       id == other.id &&
@@ -35,14 +32,11 @@ abstract class $DistributionGroup {
 }
 
 class DistributionGroup$ {
-  static final id = Lens<DistributionGroup, String>(
-      (s_) => s_.id, (s_, id) => s_.copyWith(id: id));
+  static final id = Lens<DistributionGroup, String>((s_) => s_.id, (s_, id) => s_.copyWith(id: id));
   static final mandatoryUpdate = Lens<DistributionGroup, bool>(
-      (s_) => s_.mandatoryUpdate,
-      (s_, mandatoryUpdate) => s_.copyWith(mandatoryUpdate: mandatoryUpdate));
+      (s_) => s_.mandatoryUpdate, (s_, mandatoryUpdate) => s_.copyWith(mandatoryUpdate: mandatoryUpdate));
   static final notifyTesters = Lens<DistributionGroup, bool>(
-      (s_) => s_.notifyTesters,
-      (s_, notifyTesters) => s_.copyWith(notifyTesters: notifyTesters));
+      (s_) => s_.notifyTesters, (s_, notifyTesters) => s_.copyWith(notifyTesters: notifyTesters));
 }
 
 // **************************************************************************
@@ -57,8 +51,7 @@ DistributionGroup _$DistributionGroupFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$DistributionGroupToJson(DistributionGroup instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$DistributionGroupToJson(DistributionGroup instance) => <String, dynamic>{
       'id': instance.id,
       'mandatory_update': instance.mandatoryUpdate,
       'notify_testers': instance.notifyTesters,

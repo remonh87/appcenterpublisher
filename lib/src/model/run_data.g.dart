@@ -12,16 +12,11 @@ abstract class $RunData {
   DistributionGroup get group;
   String get artefactLocation;
   const $RunData();
-  RunData copyWith(
-          {ApiConfig config,
-          AppRelease release,
-          DistributionGroup group,
-          String artefactLocation}) =>
-      RunData(
-          config: config ?? this.config,
-          release: release ?? this.release,
-          group: group ?? this.group,
-          artefactLocation: artefactLocation ?? this.artefactLocation);
+  RunData copyWith({ApiConfig config, AppRelease release, DistributionGroup group, String artefactLocation}) => RunData(
+      config: config ?? this.config,
+      release: release ?? this.release,
+      group: group ?? this.group,
+      artefactLocation: artefactLocation ?? this.artefactLocation);
   String toString() =>
       "RunData(config: $config, release: $release, group: $group, artefactLocation: $artefactLocation)";
   bool operator ==(dynamic other) =>
@@ -42,16 +37,11 @@ abstract class $RunData {
 }
 
 class RunData$ {
-  static final config = Lens<RunData, ApiConfig>(
-      (s_) => s_.config, (s_, config) => s_.copyWith(config: config));
-  static final release = Lens<RunData, AppRelease>(
-      (s_) => s_.release, (s_, release) => s_.copyWith(release: release));
-  static final group = Lens<RunData, DistributionGroup>(
-      (s_) => s_.group, (s_, group) => s_.copyWith(group: group));
+  static final config = Lens<RunData, ApiConfig>((s_) => s_.config, (s_, config) => s_.copyWith(config: config));
+  static final release = Lens<RunData, AppRelease>((s_) => s_.release, (s_, release) => s_.copyWith(release: release));
+  static final group = Lens<RunData, DistributionGroup>((s_) => s_.group, (s_, group) => s_.copyWith(group: group));
   static final artefactLocation = Lens<RunData, String>(
-      (s_) => s_.artefactLocation,
-      (s_, artefactLocation) =>
-          s_.copyWith(artefactLocation: artefactLocation));
+      (s_) => s_.artefactLocation, (s_, artefactLocation) => s_.copyWith(artefactLocation: artefactLocation));
 }
 // ignore_for_file: always_put_required_named_parameters_first
 // ignore_for_file: always_require_non_null_named_parameters

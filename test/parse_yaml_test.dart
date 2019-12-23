@@ -25,8 +25,7 @@ void main() {
 
     group('GIVEN yaml is valid', () {
       setUp(() {
-        when(yamlFile.readAsStringSync()).thenReturn(
-            'appName: testApp\ndistributionGroup: aaa\nowner: test');
+        when(yamlFile.readAsStringSync()).thenReturn('appName: testApp\ndistributionGroup: aaa\nowner: test');
       });
 
       test('It returns the mapp with 3 items', () {
