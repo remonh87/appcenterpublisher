@@ -1,4 +1,4 @@
-![Build status](https://travis-ci.com/remonh87/app_center_uploader.svg?branch=master)
+![Build status](https://travis-ci.com/remonh87/appcenterpublisher.svg?branch=master)
 
 
 # App Center Publisher
