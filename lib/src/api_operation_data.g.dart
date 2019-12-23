@@ -9,11 +9,9 @@ part of 'api_operation_data.dart';
 abstract class $ApiOperationFailure {
   String get message;
   const $ApiOperationFailure();
-  ApiOperationFailure copyWith({String message}) =>
-      ApiOperationFailure(message: message ?? this.message);
+  ApiOperationFailure copyWith({String message}) => ApiOperationFailure(message: message ?? this.message);
   String toString() => "ApiOperationFailure(message: $message)";
-  bool operator ==(dynamic other) =>
-      other.runtimeType == runtimeType && message == other.message;
+  bool operator ==(dynamic other) => other.runtimeType == runtimeType && message == other.message;
   @override
   int get hashCode {
     var result = 17;
@@ -23,8 +21,8 @@ abstract class $ApiOperationFailure {
 }
 
 class ApiOperationFailure$ {
-  static final message = Lens<ApiOperationFailure, String>(
-      (s_) => s_.message, (s_, message) => s_.copyWith(message: message));
+  static final message =
+      Lens<ApiOperationFailure, String>((s_) => s_.message, (s_, message) => s_.copyWith(message: message));
 }
 
 // **************************************************************************
@@ -38,24 +36,19 @@ CommitReleaseSuccess _$CommitReleaseSuccessFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$CommitReleaseSuccessToJson(
-        CommitReleaseSuccess instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$CommitReleaseSuccessToJson(CommitReleaseSuccess instance) => <String, dynamic>{
       'release_id': instance.releaseId,
       'release_url': instance.releaseUrl,
     };
 
-ReleaseUploadOperationSuccess _$ReleaseUploadOperationSuccessFromJson(
-    Map<String, dynamic> json) {
+ReleaseUploadOperationSuccess _$ReleaseUploadOperationSuccessFromJson(Map<String, dynamic> json) {
   return ReleaseUploadOperationSuccess(
     json['upload_id'] as String,
     json['upload_url'] as String,
   );
 }
 
-Map<String, dynamic> _$ReleaseUploadOperationSuccessToJson(
-        ReleaseUploadOperationSuccess instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$ReleaseUploadOperationSuccessToJson(ReleaseUploadOperationSuccess instance) => <String, dynamic>{
       'upload_id': instance.uploadId,
       'upload_url': instance.uploadUrl,
     };
@@ -66,9 +59,7 @@ ApiOperationFailure _$ApiOperationFailureFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$ApiOperationFailureToJson(
-        ApiOperationFailure instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$ApiOperationFailureToJson(ApiOperationFailure instance) => <String, dynamic>{
       'message': instance.message,
     };
 
@@ -80,8 +71,7 @@ abstract class _$DistributionResult {
   const _$DistributionResult({
     this.success,
     this.failure,
-  }) : assert(success != null && failure == null ||
-            success == null && failure != null);
+  }) : assert(success != null && failure == null || success == null && failure != null);
   static DistributionResult load<$T extends DistributionResultRecordBase<$T>>(
     $T rec,
   ) {
@@ -116,8 +106,7 @@ abstract class _$DistributionResult {
     } else if (this.failure != null) {
       return failure(this.failure);
     } else {
-      throw StateError(
-          "an instance of $DistributionResult has no case selected");
+      throw StateError("an instance of $DistributionResult has no case selected");
     }
   }
 
@@ -137,9 +126,7 @@ abstract class _$DistributionResult {
   bool operator ==(
     dynamic other,
   ) {
-    return other.runtimeType == runtimeType &&
-        other.success == success &&
-        other.failure == failure;
+    return other.runtimeType == runtimeType && other.success == success && other.failure == failure;
   }
 
   @override
@@ -174,8 +161,7 @@ abstract class _$ReleaseUploadResult {
   const _$ReleaseUploadResult({
     this.success,
     this.failure,
-  }) : assert(success != null && failure == null ||
-            success == null && failure != null);
+  }) : assert(success != null && failure == null || success == null && failure != null);
   static ReleaseUploadResult load<$T extends ReleaseUploadResultRecordBase<$T>>(
     $T rec,
   ) {
@@ -210,8 +196,7 @@ abstract class _$ReleaseUploadResult {
     } else if (this.failure != null) {
       return failure(this.failure);
     } else {
-      throw StateError(
-          "an instance of $ReleaseUploadResult has no case selected");
+      throw StateError("an instance of $ReleaseUploadResult has no case selected");
     }
   }
 
@@ -231,9 +216,7 @@ abstract class _$ReleaseUploadResult {
   bool operator ==(
     dynamic other,
   ) {
-    return other.runtimeType == runtimeType &&
-        other.success == success &&
-        other.failure == failure;
+    return other.runtimeType == runtimeType && other.success == success && other.failure == failure;
   }
 
   @override
@@ -268,8 +251,7 @@ abstract class _$UploadBinaryResult {
   const _$UploadBinaryResult({
     this.success,
     this.failure,
-  }) : assert(success != null && failure == null ||
-            success == null && failure != null);
+  }) : assert(success != null && failure == null || success == null && failure != null);
   static UploadBinaryResult load<$T extends UploadBinaryResultRecordBase<$T>>(
     $T rec,
   ) {
@@ -304,8 +286,7 @@ abstract class _$UploadBinaryResult {
     } else if (this.failure != null) {
       return failure(this.failure);
     } else {
-      throw StateError(
-          "an instance of $UploadBinaryResult has no case selected");
+      throw StateError("an instance of $UploadBinaryResult has no case selected");
     }
   }
 
@@ -325,9 +306,7 @@ abstract class _$UploadBinaryResult {
   bool operator ==(
     dynamic other,
   ) {
-    return other.runtimeType == runtimeType &&
-        other.success == success &&
-        other.failure == failure;
+    return other.runtimeType == runtimeType && other.success == success && other.failure == failure;
   }
 
   @override
@@ -362,8 +341,7 @@ abstract class _$CommitReleaseResult {
   const _$CommitReleaseResult({
     this.success,
     this.failure,
-  }) : assert(success != null && failure == null ||
-            success == null && failure != null);
+  }) : assert(success != null && failure == null || success == null && failure != null);
   static CommitReleaseResult load<$T extends CommitReleaseResultRecordBase<$T>>(
     $T rec,
   ) {
@@ -398,8 +376,7 @@ abstract class _$CommitReleaseResult {
     } else if (this.failure != null) {
       return failure(this.failure);
     } else {
-      throw StateError(
-          "an instance of $CommitReleaseResult has no case selected");
+      throw StateError("an instance of $CommitReleaseResult has no case selected");
     }
   }
 
@@ -419,9 +396,7 @@ abstract class _$CommitReleaseResult {
   bool operator ==(
     dynamic other,
   ) {
-    return other.runtimeType == runtimeType &&
-        other.success == success &&
-        other.failure == failure;
+    return other.runtimeType == runtimeType && other.success == success && other.failure == failure;
   }
 
   @override

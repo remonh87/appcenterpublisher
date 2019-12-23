@@ -25,16 +25,11 @@ class RunData extends $RunData {
       @required String artefactlocation,
       @required Map<String, String> yaml}) {
     final releaseInfo = ReleaseInfo(buildVersion: buildVersion);
-    final appRelease =
-        AppRelease(appName: yaml['appName'], releaseInfo: releaseInfo);
+    final appRelease = AppRelease(appName: yaml['appName'], releaseInfo: releaseInfo);
     final config = ApiConfig(owner: yaml['owner'], apiToken: apiToken);
     final group = DistributionGroup(id: yaml['distributionGroup']);
 
-    return RunData(
-        config: config,
-        release: appRelease,
-        group: group,
-        artefactLocation: artefactlocation);
+    return RunData(config: config, release: appRelease, group: group, artefactLocation: artefactlocation);
   }
 
   final ApiConfig config;

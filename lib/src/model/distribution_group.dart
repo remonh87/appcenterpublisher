@@ -14,8 +14,7 @@ class DistributionGroup extends $DistributionGroup {
     this.notifyTesters = true,
   }) : assert(id != null);
 
-  factory DistributionGroup.fromJson(Map<String, dynamic> json) =>
-      _$DistributionGroupFromJson(json);
+  factory DistributionGroup.fromJson(Map<String, dynamic> json) => _$DistributionGroupFromJson(json);
 
   Map<String, dynamic> toJson() => _$DistributionGroupToJson(this);
 
