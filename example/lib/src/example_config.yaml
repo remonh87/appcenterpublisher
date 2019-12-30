@@ -1,3 +1,8 @@
-appName: testApp #Mandatory: the name of the app
-distributionGroup: aaa  #Mandatory:  distribution group id on appcenter
-owner: test #Mandatory: the owner of the specifc app
+- App1: #just a description so you know which app it is won't be used
+    appName: testApp1 #Mandatory: the name of the app
+    distributionGroup: group1  #Mandatory:  distribution group id on appcenter
+    owner: test #Mandatory: the owner of the specifc app
+- App2:
+    appName: testApp2 #Mandatory: the name of the app
+    distributionGroup: group2  #Mandatory:  distribution group id on appcenter
+    owner: test #Mandatory: the owner of the specifc app

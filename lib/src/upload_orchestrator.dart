@@ -51,7 +51,16 @@ class UploadOrchestrator {
 
   final EventLogger eventLogger;
 
-  Future<int> run(RunData rundata) async {
+  Future<int> run(Iterable<RunData> rundata) async {
+    var result = 0;
+    for (final data in rundata) {
+      eventLogger.log('=== Start distributing ${data.release.appName} ===');
+      result += await _run(data);
+    }
+    return result;
+  }
+
+  Future<int> _run(RunData rundata) async {
     eventLogger.log('Creating upload url ...');
     final result = await createUploadUrl(callApi: http.post, config: rundata.config, appRelease: rundata.release);
 
