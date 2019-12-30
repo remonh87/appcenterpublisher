@@ -50,12 +50,13 @@ class PublishAppCommand extends Command<dynamic> {
 
     eventLogger.log('Start uploading app');
     final parsedYaml = parseYamlConfig(print, yaml);
-    final runData = RunData.fromConfig(
-      apiToken: argResults['apiToken'].toString(),
-      buildVersion: '0.1',
-      artefactlocation: argResults['binary'].toString(),
-      yaml: parsedYaml,
-    );
+
+    final runData = parsedYaml.map((yaml) => RunData.fromConfig(
+          apiToken: argResults['apiToken'].toString(),
+          buildVersion: '0.1',
+          artefactlocation: argResults['binary'].toString(),
+          yaml: yaml,
+        ));
 
     final orchestrator = UploadOrchestrator(
       createUploadUrl: createUploadUrl,

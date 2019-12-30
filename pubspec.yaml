@@ -1,6 +1,6 @@
 name: appcenterpublisher
 description: Tool to upload and publish apps to appcenter using the REST API.
-version: 0.1.1
+version: 0.2.0
 homepage: https://github.com/remonh87/app_center_uploader
 
 environment:

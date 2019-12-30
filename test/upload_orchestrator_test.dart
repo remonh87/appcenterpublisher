@@ -50,8 +50,9 @@ void main() {
   const distributionGroup = DistributionGroup(id: '123');
   const artefactLocation = '/test/arctefact.apk';
   final eventLogger = _EventLoggerMock();
-  const rundata =
-      RunData(config: config, release: release, group: distributionGroup, artefactLocation: artefactLocation);
+  const rundata = [
+    RunData(config: config, release: release, group: distributionGroup, artefactLocation: artefactLocation)
+  ];
 
   setUp(() {
     uploader = _UploaderMock();
