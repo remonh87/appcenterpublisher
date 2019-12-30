@@ -16,7 +16,7 @@ In order to update the tool use the same `pub global activate` command
 Preconditions:
 1. Create an Api token on App Center Read more about how to create such a token [here](https://docs.microsoft.com/en-us/appcenter/api-docs/ "Appcenter api docs").
 
-2. Create a yaml file containing the config. For more info see the [example config](https://github.com/remonh87/appcenterdistributor/tree/master/example/src, "Example config").
+2. Create a yaml file containing the config. For more info see the [example config](https://github.com/remonh87/appcenterpublisher/blob/master/example/lib/src/example_config.yaml  "Example config").
 
 3. Have a binary of the app (e.g. `.ipa` or `.apk`) located on the machine from where you want to run this tool. 
 
